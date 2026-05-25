@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/QuranCompanion.Api/QuranCompanion.Api.csproj" />
+    <Project Path="src/QuranCompanion.Application/QuranCompanion.Application.csproj" />
+    <Project Path="src/QuranCompanion.Domain/QuranCompanion.Domain.csproj" />
+    <Project Path="src/QuranCompanion.Infrastructure/QuranCompanion.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/QuranCompanion.Application.Tests/QuranCompanion.Application.Tests.csproj" />
+  </Folder>
+</Solution>
