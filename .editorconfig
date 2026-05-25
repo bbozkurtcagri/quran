@@ -36,3 +36,9 @@ dotnet_naming_style.underscore_camel_case.capitalization = camel_case
 # Warnings suppressed for tests
 [tests/**/*.cs]
 dotnet_diagnostic.CA1707.severity = none
+
+# EF Core scaffolds migrations with block-scoped namespaces; do not fight the tool.
+[**/Migrations/*.cs]
+dotnet_diagnostic.IDE0161.severity = none
+csharp_style_namespace_declarations = block_scoped:none
+generated_code = true
