@@ -2,6 +2,7 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using QuranCompanion.Api.Common;
+using QuranCompanion.Api.Seeding;
 using QuranCompanion.Application;
 using QuranCompanion.Infrastructure;
 using Serilog;
@@ -16,6 +17,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<SeedRunner>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -63,6 +65,27 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+if (args.Length > 0 && string.Equals(args[0], "seed", StringComparison.OrdinalIgnoreCase))
+{
+    var seedDirectory = args.Length > 1
+        ? args[1]
+        : Path.Combine(Directory.GetCurrentDirectory(), "seed-data");
+
+    if (!Path.IsPathRooted(seedDirectory))
+    {
+        seedDirectory = Path.GetFullPath(seedDirectory);
+    }
+
+    using var scope = app.Services.CreateScope();
+    var seedRunner = scope.ServiceProvider.GetRequiredService<SeedRunner>();
+    var seedLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    seedLogger.LogInformation("Seeding from {Directory}…", seedDirectory);
+    await seedRunner.RunAsync(seedDirectory, CancellationToken.None);
+    seedLogger.LogInformation("Seed completed.");
+    return;
+}
 
 app.UseForwardedHeaders();
 app.UseExceptionHandler();
