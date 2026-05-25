@@ -12,6 +12,17 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <!--
+    Audit suppressions for System.Security.Cryptography.Xml: only the
+    XSLT-compiled stylesheet code path is affected and we do not invoke it.
+    The package is pulled in transitively via EF Core design-time tooling.
+    Revisit once a patched release ships.
+  -->
+  <ItemGroup>
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-37gx-xxp4-5rgx" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w3x6-4m5h-cxqf" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <Optimize>true</Optimize>
     <DebugType>portable</DebugType>
