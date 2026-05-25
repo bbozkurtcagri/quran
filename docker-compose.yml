@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: qurancompanion-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: qurancompanion
+      POSTGRES_PASSWORD: qurancompanion
+      POSTGRES_DB: qurancompanion
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - qurancompanion-pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qurancompanion -d qurancompanion"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  qurancompanion-pgdata:
+    name: qurancompanion-pgdata
