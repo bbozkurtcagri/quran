@@ -221,12 +221,37 @@ persisted (e.g. in `qa.generated_answers` citations). The Elmalılı/PD path
 keeps this clean. If we ever want to cite Diyanet or modern works in answers,
 we need licensing in place first.
 
+## Implementation notes
+
+### Bismillah handling (Arabic text import)
+
+When importing via the AlQuran Cloud bridge (which republishes Tanzil's
+`quran-uthmani-min` edition), the bismillah is prepended **inline** to verse 1
+of every sura except Al-Fatihah (where it *is* verse 1) and At-Tawbah (which
+has no bismillah). The Tanzil source text itself does not store bismillah
+inline. The seed importer strips this prefix so each verse stores only its
+own text:
+
+- Al-Fatihah v1 → `بِسمِ اللَّهِ الرَّحمٰنِ الرَّحيمِ` (unchanged — this is the verse)
+- Al-Baqarah v1 → `الم` (bismillah stripped)
+- Al-Ikhlas v1 → `قُل هُوَ اللَّهُ أَحَدٌ` (bismillah stripped)
+- At-Tawbah v1 → unchanged (no bismillah to begin with)
+
+### Unicode normalization gotcha
+
+Tanzil's text orders combining marks as **shadda (U+0651) before fatha (U+064E)**
+in some words (`اللَّهِ`); a literal typed in source code or a different
+distribution may use the opposite order. They render identically but are
+byte-different. Comparison code that needs to detect the bismillah prefix
+extracts it from the data itself (Al-Fatihah v1) rather than hard-coding a
+literal.
+
 ## Open follow-ups
 
+- [x] Download Tanzil Uthmani-Minimal 1.1 plain text — via AlQuran Cloud
+      `quran-uthmani-min` edition, 2026-05-26.
 - [ ] Pull a clean Elmalılı meal-only dataset; verify a sample against the
       Internet Archive scan.
-- [ ] Download Tanzil Uthmani-Minimal 1.1 plain text; verify SHA against the
-      published checksum.
 - [ ] Update `seed-data/translations/sources.json` and `elmalili.json`
       (currently absent — gitignored).
 - [ ] When committing seeded data, ensure attribution strings on
