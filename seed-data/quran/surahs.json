@@ -1,0 +1,1028 @@
+[
+  {
+    "number": 1,
+    "nameArabic": "الفاتحة",
+    "nameTurkish": "Fâtiha",
+    "nameTransliteration": "Al-Fatihah",
+    "verseCount": 7,
+    "revelationPlace": "Meccan",
+    "displayOrder": 1
+  },
+  {
+    "number": 2,
+    "nameArabic": "البقرة",
+    "nameTurkish": "Bakara",
+    "nameTransliteration": "Al-Baqarah",
+    "verseCount": 286,
+    "revelationPlace": "Medinan",
+    "displayOrder": 2
+  },
+  {
+    "number": 3,
+    "nameArabic": "آل عمران",
+    "nameTurkish": "Âl-i İmrân",
+    "nameTransliteration": "Ali 'Imran",
+    "verseCount": 200,
+    "revelationPlace": "Medinan",
+    "displayOrder": 3
+  },
+  {
+    "number": 4,
+    "nameArabic": "النساء",
+    "nameTurkish": "Nisâ",
+    "nameTransliteration": "An-Nisa",
+    "verseCount": 176,
+    "revelationPlace": "Medinan",
+    "displayOrder": 4
+  },
+  {
+    "number": 5,
+    "nameArabic": "المائدة",
+    "nameTurkish": "Mâide",
+    "nameTransliteration": "Al-Ma'idah",
+    "verseCount": 120,
+    "revelationPlace": "Medinan",
+    "displayOrder": 5
+  },
+  {
+    "number": 6,
+    "nameArabic": "الأنعام",
+    "nameTurkish": "En'âm",
+    "nameTransliteration": "Al-An'am",
+    "verseCount": 165,
+    "revelationPlace": "Meccan",
+    "displayOrder": 6
+  },
+  {
+    "number": 7,
+    "nameArabic": "الأعراف",
+    "nameTurkish": "A'râf",
+    "nameTransliteration": "Al-A'raf",
+    "verseCount": 206,
+    "revelationPlace": "Meccan",
+    "displayOrder": 7
+  },
+  {
+    "number": 8,
+    "nameArabic": "الأنفال",
+    "nameTurkish": "Enfâl",
+    "nameTransliteration": "Al-Anfal",
+    "verseCount": 75,
+    "revelationPlace": "Medinan",
+    "displayOrder": 8
+  },
+  {
+    "number": 9,
+    "nameArabic": "التوبة",
+    "nameTurkish": "Tevbe",
+    "nameTransliteration": "At-Tawbah",
+    "verseCount": 129,
+    "revelationPlace": "Medinan",
+    "displayOrder": 9
+  },
+  {
+    "number": 10,
+    "nameArabic": "يونس",
+    "nameTurkish": "Yûnus",
+    "nameTransliteration": "Yunus",
+    "verseCount": 109,
+    "revelationPlace": "Meccan",
+    "displayOrder": 10
+  },
+  {
+    "number": 11,
+    "nameArabic": "هود",
+    "nameTurkish": "Hûd",
+    "nameTransliteration": "Hud",
+    "verseCount": 123,
+    "revelationPlace": "Meccan",
+    "displayOrder": 11
+  },
+  {
+    "number": 12,
+    "nameArabic": "يوسف",
+    "nameTurkish": "Yûsuf",
+    "nameTransliteration": "Yusuf",
+    "verseCount": 111,
+    "revelationPlace": "Meccan",
+    "displayOrder": 12
+  },
+  {
+    "number": 13,
+    "nameArabic": "الرعد",
+    "nameTurkish": "Ra'd",
+    "nameTransliteration": "Ar-Ra'd",
+    "verseCount": 43,
+    "revelationPlace": "Medinan",
+    "displayOrder": 13
+  },
+  {
+    "number": 14,
+    "nameArabic": "ابراهيم",
+    "nameTurkish": "İbrâhîm",
+    "nameTransliteration": "Ibrahim",
+    "verseCount": 52,
+    "revelationPlace": "Meccan",
+    "displayOrder": 14
+  },
+  {
+    "number": 15,
+    "nameArabic": "الحجر",
+    "nameTurkish": "Hicr",
+    "nameTransliteration": "Al-Hijr",
+    "verseCount": 99,
+    "revelationPlace": "Meccan",
+    "displayOrder": 15
+  },
+  {
+    "number": 16,
+    "nameArabic": "النحل",
+    "nameTurkish": "Nahl",
+    "nameTransliteration": "An-Nahl",
+    "verseCount": 128,
+    "revelationPlace": "Meccan",
+    "displayOrder": 16
+  },
+  {
+    "number": 17,
+    "nameArabic": "الإسراء",
+    "nameTurkish": "İsrâ",
+    "nameTransliteration": "Al-Isra",
+    "verseCount": 111,
+    "revelationPlace": "Meccan",
+    "displayOrder": 17
+  },
+  {
+    "number": 18,
+    "nameArabic": "الكهف",
+    "nameTurkish": "Kehf",
+    "nameTransliteration": "Al-Kahf",
+    "verseCount": 110,
+    "revelationPlace": "Meccan",
+    "displayOrder": 18
+  },
+  {
+    "number": 19,
+    "nameArabic": "مريم",
+    "nameTurkish": "Meryem",
+    "nameTransliteration": "Maryam",
+    "verseCount": 98,
+    "revelationPlace": "Meccan",
+    "displayOrder": 19
+  },
+  {
+    "number": 20,
+    "nameArabic": "طه",
+    "nameTurkish": "Tâhâ",
+    "nameTransliteration": "Taha",
+    "verseCount": 135,
+    "revelationPlace": "Meccan",
+    "displayOrder": 20
+  },
+  {
+    "number": 21,
+    "nameArabic": "الأنبياء",
+    "nameTurkish": "Enbiyâ",
+    "nameTransliteration": "Al-Anbya",
+    "verseCount": 112,
+    "revelationPlace": "Meccan",
+    "displayOrder": 21
+  },
+  {
+    "number": 22,
+    "nameArabic": "الحج",
+    "nameTurkish": "Hac",
+    "nameTransliteration": "Al-Hajj",
+    "verseCount": 78,
+    "revelationPlace": "Medinan",
+    "displayOrder": 22
+  },
+  {
+    "number": 23,
+    "nameArabic": "المؤمنون",
+    "nameTurkish": "Mü'minûn",
+    "nameTransliteration": "Al-Mu'minun",
+    "verseCount": 118,
+    "revelationPlace": "Meccan",
+    "displayOrder": 23
+  },
+  {
+    "number": 24,
+    "nameArabic": "النور",
+    "nameTurkish": "Nûr",
+    "nameTransliteration": "An-Nur",
+    "verseCount": 64,
+    "revelationPlace": "Medinan",
+    "displayOrder": 24
+  },
+  {
+    "number": 25,
+    "nameArabic": "الفرقان",
+    "nameTurkish": "Furkân",
+    "nameTransliteration": "Al-Furqan",
+    "verseCount": 77,
+    "revelationPlace": "Meccan",
+    "displayOrder": 25
+  },
+  {
+    "number": 26,
+    "nameArabic": "الشعراء",
+    "nameTurkish": "Şuarâ",
+    "nameTransliteration": "Ash-Shu'ara",
+    "verseCount": 227,
+    "revelationPlace": "Meccan",
+    "displayOrder": 26
+  },
+  {
+    "number": 27,
+    "nameArabic": "النمل",
+    "nameTurkish": "Neml",
+    "nameTransliteration": "An-Naml",
+    "verseCount": 93,
+    "revelationPlace": "Meccan",
+    "displayOrder": 27
+  },
+  {
+    "number": 28,
+    "nameArabic": "القصص",
+    "nameTurkish": "Kasas",
+    "nameTransliteration": "Al-Qasas",
+    "verseCount": 88,
+    "revelationPlace": "Meccan",
+    "displayOrder": 28
+  },
+  {
+    "number": 29,
+    "nameArabic": "العنكبوت",
+    "nameTurkish": "Ankebût",
+    "nameTransliteration": "Al-'Ankabut",
+    "verseCount": 69,
+    "revelationPlace": "Meccan",
+    "displayOrder": 29
+  },
+  {
+    "number": 30,
+    "nameArabic": "الروم",
+    "nameTurkish": "Rûm",
+    "nameTransliteration": "Ar-Rum",
+    "verseCount": 60,
+    "revelationPlace": "Meccan",
+    "displayOrder": 30
+  },
+  {
+    "number": 31,
+    "nameArabic": "لقمان",
+    "nameTurkish": "Lokmân",
+    "nameTransliteration": "Luqman",
+    "verseCount": 34,
+    "revelationPlace": "Meccan",
+    "displayOrder": 31
+  },
+  {
+    "number": 32,
+    "nameArabic": "السجدة",
+    "nameTurkish": "Secde",
+    "nameTransliteration": "As-Sajdah",
+    "verseCount": 30,
+    "revelationPlace": "Meccan",
+    "displayOrder": 32
+  },
+  {
+    "number": 33,
+    "nameArabic": "الأحزاب",
+    "nameTurkish": "Ahzâb",
+    "nameTransliteration": "Al-Ahzab",
+    "verseCount": 73,
+    "revelationPlace": "Medinan",
+    "displayOrder": 33
+  },
+  {
+    "number": 34,
+    "nameArabic": "سبإ",
+    "nameTurkish": "Sebe'",
+    "nameTransliteration": "Saba",
+    "verseCount": 54,
+    "revelationPlace": "Meccan",
+    "displayOrder": 34
+  },
+  {
+    "number": 35,
+    "nameArabic": "فاطر",
+    "nameTurkish": "Fâtır",
+    "nameTransliteration": "Fatir",
+    "verseCount": 45,
+    "revelationPlace": "Meccan",
+    "displayOrder": 35
+  },
+  {
+    "number": 36,
+    "nameArabic": "يس",
+    "nameTurkish": "Yâsîn",
+    "nameTransliteration": "Ya-Sin",
+    "verseCount": 83,
+    "revelationPlace": "Meccan",
+    "displayOrder": 36
+  },
+  {
+    "number": 37,
+    "nameArabic": "الصافات",
+    "nameTurkish": "Sâffât",
+    "nameTransliteration": "As-Saffat",
+    "verseCount": 182,
+    "revelationPlace": "Meccan",
+    "displayOrder": 37
+  },
+  {
+    "number": 38,
+    "nameArabic": "ص",
+    "nameTurkish": "Sâd",
+    "nameTransliteration": "Sad",
+    "verseCount": 88,
+    "revelationPlace": "Meccan",
+    "displayOrder": 38
+  },
+  {
+    "number": 39,
+    "nameArabic": "الزمر",
+    "nameTurkish": "Zümer",
+    "nameTransliteration": "Az-Zumar",
+    "verseCount": 75,
+    "revelationPlace": "Meccan",
+    "displayOrder": 39
+  },
+  {
+    "number": 40,
+    "nameArabic": "غافر",
+    "nameTurkish": "Mü'min",
+    "nameTransliteration": "Ghafir",
+    "verseCount": 85,
+    "revelationPlace": "Meccan",
+    "displayOrder": 40
+  },
+  {
+    "number": 41,
+    "nameArabic": "فصلت",
+    "nameTurkish": "Fussilet",
+    "nameTransliteration": "Fussilat",
+    "verseCount": 54,
+    "revelationPlace": "Meccan",
+    "displayOrder": 41
+  },
+  {
+    "number": 42,
+    "nameArabic": "الشورى",
+    "nameTurkish": "Şûrâ",
+    "nameTransliteration": "Ash-Shuraa",
+    "verseCount": 53,
+    "revelationPlace": "Meccan",
+    "displayOrder": 42
+  },
+  {
+    "number": 43,
+    "nameArabic": "الزخرف",
+    "nameTurkish": "Zuhruf",
+    "nameTransliteration": "Az-Zukhruf",
+    "verseCount": 89,
+    "revelationPlace": "Meccan",
+    "displayOrder": 43
+  },
+  {
+    "number": 44,
+    "nameArabic": "الدخان",
+    "nameTurkish": "Duhân",
+    "nameTransliteration": "Ad-Dukhan",
+    "verseCount": 59,
+    "revelationPlace": "Meccan",
+    "displayOrder": 44
+  },
+  {
+    "number": 45,
+    "nameArabic": "الجاثية",
+    "nameTurkish": "Câsiye",
+    "nameTransliteration": "Al-Jathiyah",
+    "verseCount": 37,
+    "revelationPlace": "Meccan",
+    "displayOrder": 45
+  },
+  {
+    "number": 46,
+    "nameArabic": "الأحقاف",
+    "nameTurkish": "Ahkâf",
+    "nameTransliteration": "Al-Ahqaf",
+    "verseCount": 35,
+    "revelationPlace": "Meccan",
+    "displayOrder": 46
+  },
+  {
+    "number": 47,
+    "nameArabic": "محمد",
+    "nameTurkish": "Muhammed",
+    "nameTransliteration": "Muhammad",
+    "verseCount": 38,
+    "revelationPlace": "Medinan",
+    "displayOrder": 47
+  },
+  {
+    "number": 48,
+    "nameArabic": "الفتح",
+    "nameTurkish": "Fetih",
+    "nameTransliteration": "Al-Fath",
+    "verseCount": 29,
+    "revelationPlace": "Medinan",
+    "displayOrder": 48
+  },
+  {
+    "number": 49,
+    "nameArabic": "الحجرات",
+    "nameTurkish": "Hucurât",
+    "nameTransliteration": "Al-Hujurat",
+    "verseCount": 18,
+    "revelationPlace": "Medinan",
+    "displayOrder": 49
+  },
+  {
+    "number": 50,
+    "nameArabic": "ق",
+    "nameTurkish": "Kâf",
+    "nameTransliteration": "Qaf",
+    "verseCount": 45,
+    "revelationPlace": "Meccan",
+    "displayOrder": 50
+  },
+  {
+    "number": 51,
+    "nameArabic": "الذاريات",
+    "nameTurkish": "Zâriyât",
+    "nameTransliteration": "Adh-Dhariyat",
+    "verseCount": 60,
+    "revelationPlace": "Meccan",
+    "displayOrder": 51
+  },
+  {
+    "number": 52,
+    "nameArabic": "الطور",
+    "nameTurkish": "Tûr",
+    "nameTransliteration": "At-Tur",
+    "verseCount": 49,
+    "revelationPlace": "Meccan",
+    "displayOrder": 52
+  },
+  {
+    "number": 53,
+    "nameArabic": "النجم",
+    "nameTurkish": "Necm",
+    "nameTransliteration": "An-Najm",
+    "verseCount": 62,
+    "revelationPlace": "Meccan",
+    "displayOrder": 53
+  },
+  {
+    "number": 54,
+    "nameArabic": "القمر",
+    "nameTurkish": "Kamer",
+    "nameTransliteration": "Al-Qamar",
+    "verseCount": 55,
+    "revelationPlace": "Meccan",
+    "displayOrder": 54
+  },
+  {
+    "number": 55,
+    "nameArabic": "الرحمن",
+    "nameTurkish": "Rahmân",
+    "nameTransliteration": "Ar-Rahman",
+    "verseCount": 78,
+    "revelationPlace": "Medinan",
+    "displayOrder": 55
+  },
+  {
+    "number": 56,
+    "nameArabic": "الواقعة",
+    "nameTurkish": "Vâkıa",
+    "nameTransliteration": "Al-Waqi'ah",
+    "verseCount": 96,
+    "revelationPlace": "Meccan",
+    "displayOrder": 56
+  },
+  {
+    "number": 57,
+    "nameArabic": "الحديد",
+    "nameTurkish": "Hadîd",
+    "nameTransliteration": "Al-Hadid",
+    "verseCount": 29,
+    "revelationPlace": "Medinan",
+    "displayOrder": 57
+  },
+  {
+    "number": 58,
+    "nameArabic": "المجادلة",
+    "nameTurkish": "Mücâdele",
+    "nameTransliteration": "Al-Mujadila",
+    "verseCount": 22,
+    "revelationPlace": "Medinan",
+    "displayOrder": 58
+  },
+  {
+    "number": 59,
+    "nameArabic": "الحشر",
+    "nameTurkish": "Haşr",
+    "nameTransliteration": "Al-Hashr",
+    "verseCount": 24,
+    "revelationPlace": "Medinan",
+    "displayOrder": 59
+  },
+  {
+    "number": 60,
+    "nameArabic": "الممتحنة",
+    "nameTurkish": "Mümtehine",
+    "nameTransliteration": "Al-Mumtahanah",
+    "verseCount": 13,
+    "revelationPlace": "Medinan",
+    "displayOrder": 60
+  },
+  {
+    "number": 61,
+    "nameArabic": "الصف",
+    "nameTurkish": "Saf",
+    "nameTransliteration": "As-Saf",
+    "verseCount": 14,
+    "revelationPlace": "Medinan",
+    "displayOrder": 61
+  },
+  {
+    "number": 62,
+    "nameArabic": "الجمعة",
+    "nameTurkish": "Cuma",
+    "nameTransliteration": "Al-Jumu'ah",
+    "verseCount": 11,
+    "revelationPlace": "Medinan",
+    "displayOrder": 62
+  },
+  {
+    "number": 63,
+    "nameArabic": "المنافقون",
+    "nameTurkish": "Münâfikûn",
+    "nameTransliteration": "Al-Munafiqun",
+    "verseCount": 11,
+    "revelationPlace": "Medinan",
+    "displayOrder": 63
+  },
+  {
+    "number": 64,
+    "nameArabic": "التغابن",
+    "nameTurkish": "Tegâbün",
+    "nameTransliteration": "At-Taghabun",
+    "verseCount": 18,
+    "revelationPlace": "Medinan",
+    "displayOrder": 64
+  },
+  {
+    "number": 65,
+    "nameArabic": "الطلاق",
+    "nameTurkish": "Talâk",
+    "nameTransliteration": "At-Talaq",
+    "verseCount": 12,
+    "revelationPlace": "Medinan",
+    "displayOrder": 65
+  },
+  {
+    "number": 66,
+    "nameArabic": "التحريم",
+    "nameTurkish": "Tahrîm",
+    "nameTransliteration": "At-Tahrim",
+    "verseCount": 12,
+    "revelationPlace": "Medinan",
+    "displayOrder": 66
+  },
+  {
+    "number": 67,
+    "nameArabic": "الملك",
+    "nameTurkish": "Mülk",
+    "nameTransliteration": "Al-Mulk",
+    "verseCount": 30,
+    "revelationPlace": "Meccan",
+    "displayOrder": 67
+  },
+  {
+    "number": 68,
+    "nameArabic": "القلم",
+    "nameTurkish": "Kalem",
+    "nameTransliteration": "Al-Qalam",
+    "verseCount": 52,
+    "revelationPlace": "Meccan",
+    "displayOrder": 68
+  },
+  {
+    "number": 69,
+    "nameArabic": "الحاقة",
+    "nameTurkish": "Hâkka",
+    "nameTransliteration": "Al-Haqqah",
+    "verseCount": 52,
+    "revelationPlace": "Meccan",
+    "displayOrder": 69
+  },
+  {
+    "number": 70,
+    "nameArabic": "المعارج",
+    "nameTurkish": "Meâric",
+    "nameTransliteration": "Al-Ma'arij",
+    "verseCount": 44,
+    "revelationPlace": "Meccan",
+    "displayOrder": 70
+  },
+  {
+    "number": 71,
+    "nameArabic": "نوح",
+    "nameTurkish": "Nûh",
+    "nameTransliteration": "Nuh",
+    "verseCount": 28,
+    "revelationPlace": "Meccan",
+    "displayOrder": 71
+  },
+  {
+    "number": 72,
+    "nameArabic": "الجن",
+    "nameTurkish": "Cin",
+    "nameTransliteration": "Al-Jinn",
+    "verseCount": 28,
+    "revelationPlace": "Meccan",
+    "displayOrder": 72
+  },
+  {
+    "number": 73,
+    "nameArabic": "المزمل",
+    "nameTurkish": "Müzzemmil",
+    "nameTransliteration": "Al-Muzzammil",
+    "verseCount": 20,
+    "revelationPlace": "Meccan",
+    "displayOrder": 73
+  },
+  {
+    "number": 74,
+    "nameArabic": "المدثر",
+    "nameTurkish": "Müddessir",
+    "nameTransliteration": "Al-Muddaththir",
+    "verseCount": 56,
+    "revelationPlace": "Meccan",
+    "displayOrder": 74
+  },
+  {
+    "number": 75,
+    "nameArabic": "القيامة",
+    "nameTurkish": "Kıyâmet",
+    "nameTransliteration": "Al-Qiyamah",
+    "verseCount": 40,
+    "revelationPlace": "Meccan",
+    "displayOrder": 75
+  },
+  {
+    "number": 76,
+    "nameArabic": "الانسان",
+    "nameTurkish": "İnsân",
+    "nameTransliteration": "Al-Insan",
+    "verseCount": 31,
+    "revelationPlace": "Medinan",
+    "displayOrder": 76
+  },
+  {
+    "number": 77,
+    "nameArabic": "المرسلات",
+    "nameTurkish": "Mürselât",
+    "nameTransliteration": "Al-Mursalat",
+    "verseCount": 50,
+    "revelationPlace": "Meccan",
+    "displayOrder": 77
+  },
+  {
+    "number": 78,
+    "nameArabic": "النبإ",
+    "nameTurkish": "Nebe",
+    "nameTransliteration": "An-Naba",
+    "verseCount": 40,
+    "revelationPlace": "Meccan",
+    "displayOrder": 78
+  },
+  {
+    "number": 79,
+    "nameArabic": "النازعات",
+    "nameTurkish": "Naziât",
+    "nameTransliteration": "An-Nazi'at",
+    "verseCount": 46,
+    "revelationPlace": "Meccan",
+    "displayOrder": 79
+  },
+  {
+    "number": 80,
+    "nameArabic": "عبس",
+    "nameTurkish": "Abese",
+    "nameTransliteration": "'Abasa",
+    "verseCount": 42,
+    "revelationPlace": "Meccan",
+    "displayOrder": 80
+  },
+  {
+    "number": 81,
+    "nameArabic": "التكوير",
+    "nameTurkish": "Tekvîr",
+    "nameTransliteration": "At-Takwir",
+    "verseCount": 29,
+    "revelationPlace": "Meccan",
+    "displayOrder": 81
+  },
+  {
+    "number": 82,
+    "nameArabic": "الإنفطار",
+    "nameTurkish": "İnfitâr",
+    "nameTransliteration": "Al-Infitar",
+    "verseCount": 19,
+    "revelationPlace": "Meccan",
+    "displayOrder": 82
+  },
+  {
+    "number": 83,
+    "nameArabic": "المطففين",
+    "nameTurkish": "Mutaffifîn",
+    "nameTransliteration": "Al-Mutaffifin",
+    "verseCount": 36,
+    "revelationPlace": "Meccan",
+    "displayOrder": 83
+  },
+  {
+    "number": 84,
+    "nameArabic": "الإنشقاق",
+    "nameTurkish": "İnşikâk",
+    "nameTransliteration": "Al-Inshiqaq",
+    "verseCount": 25,
+    "revelationPlace": "Meccan",
+    "displayOrder": 84
+  },
+  {
+    "number": 85,
+    "nameArabic": "البروج",
+    "nameTurkish": "Burûc",
+    "nameTransliteration": "Al-Buruj",
+    "verseCount": 22,
+    "revelationPlace": "Meccan",
+    "displayOrder": 85
+  },
+  {
+    "number": 86,
+    "nameArabic": "الطارق",
+    "nameTurkish": "Târık",
+    "nameTransliteration": "At-Tariq",
+    "verseCount": 17,
+    "revelationPlace": "Meccan",
+    "displayOrder": 86
+  },
+  {
+    "number": 87,
+    "nameArabic": "الأعلى",
+    "nameTurkish": "A'lâ",
+    "nameTransliteration": "Al-A'la",
+    "verseCount": 19,
+    "revelationPlace": "Meccan",
+    "displayOrder": 87
+  },
+  {
+    "number": 88,
+    "nameArabic": "الغاشية",
+    "nameTurkish": "Gâşiye",
+    "nameTransliteration": "Al-Ghashiyah",
+    "verseCount": 26,
+    "revelationPlace": "Meccan",
+    "displayOrder": 88
+  },
+  {
+    "number": 89,
+    "nameArabic": "الفجر",
+    "nameTurkish": "Fecr",
+    "nameTransliteration": "Al-Fajr",
+    "verseCount": 30,
+    "revelationPlace": "Meccan",
+    "displayOrder": 89
+  },
+  {
+    "number": 90,
+    "nameArabic": "البلد",
+    "nameTurkish": "Beled",
+    "nameTransliteration": "Al-Balad",
+    "verseCount": 20,
+    "revelationPlace": "Meccan",
+    "displayOrder": 90
+  },
+  {
+    "number": 91,
+    "nameArabic": "الشمس",
+    "nameTurkish": "Şems",
+    "nameTransliteration": "Ash-Shams",
+    "verseCount": 15,
+    "revelationPlace": "Meccan",
+    "displayOrder": 91
+  },
+  {
+    "number": 92,
+    "nameArabic": "الليل",
+    "nameTurkish": "Leyl",
+    "nameTransliteration": "Al-Layl",
+    "verseCount": 21,
+    "revelationPlace": "Meccan",
+    "displayOrder": 92
+  },
+  {
+    "number": 93,
+    "nameArabic": "الضحى",
+    "nameTurkish": "Duhâ",
+    "nameTransliteration": "Ad-Duhaa",
+    "verseCount": 11,
+    "revelationPlace": "Meccan",
+    "displayOrder": 93
+  },
+  {
+    "number": 94,
+    "nameArabic": "الشرح",
+    "nameTurkish": "İnşirâh",
+    "nameTransliteration": "Ash-Sharh",
+    "verseCount": 8,
+    "revelationPlace": "Meccan",
+    "displayOrder": 94
+  },
+  {
+    "number": 95,
+    "nameArabic": "التين",
+    "nameTurkish": "Tîn",
+    "nameTransliteration": "At-Tin",
+    "verseCount": 8,
+    "revelationPlace": "Meccan",
+    "displayOrder": 95
+  },
+  {
+    "number": 96,
+    "nameArabic": "العلق",
+    "nameTurkish": "Alak",
+    "nameTransliteration": "Al-'Alaq",
+    "verseCount": 19,
+    "revelationPlace": "Meccan",
+    "displayOrder": 96
+  },
+  {
+    "number": 97,
+    "nameArabic": "القدر",
+    "nameTurkish": "Kadir",
+    "nameTransliteration": "Al-Qadr",
+    "verseCount": 5,
+    "revelationPlace": "Meccan",
+    "displayOrder": 97
+  },
+  {
+    "number": 98,
+    "nameArabic": "البينة",
+    "nameTurkish": "Beyyine",
+    "nameTransliteration": "Al-Bayyinah",
+    "verseCount": 8,
+    "revelationPlace": "Medinan",
+    "displayOrder": 98
+  },
+  {
+    "number": 99,
+    "nameArabic": "الزلزلة",
+    "nameTurkish": "Zilzâl",
+    "nameTransliteration": "Az-Zalzalah",
+    "verseCount": 8,
+    "revelationPlace": "Medinan",
+    "displayOrder": 99
+  },
+  {
+    "number": 100,
+    "nameArabic": "العاديات",
+    "nameTurkish": "Âdiyât",
+    "nameTransliteration": "Al-'Adiyat",
+    "verseCount": 11,
+    "revelationPlace": "Meccan",
+    "displayOrder": 100
+  },
+  {
+    "number": 101,
+    "nameArabic": "القارعة",
+    "nameTurkish": "Kâria",
+    "nameTransliteration": "Al-Qari'ah",
+    "verseCount": 11,
+    "revelationPlace": "Meccan",
+    "displayOrder": 101
+  },
+  {
+    "number": 102,
+    "nameArabic": "التكاثر",
+    "nameTurkish": "Tekâsür",
+    "nameTransliteration": "At-Takathur",
+    "verseCount": 8,
+    "revelationPlace": "Meccan",
+    "displayOrder": 102
+  },
+  {
+    "number": 103,
+    "nameArabic": "العصر",
+    "nameTurkish": "Asr",
+    "nameTransliteration": "Al-'Asr",
+    "verseCount": 3,
+    "revelationPlace": "Meccan",
+    "displayOrder": 103
+  },
+  {
+    "number": 104,
+    "nameArabic": "الهمزة",
+    "nameTurkish": "Hümeze",
+    "nameTransliteration": "Al-Humazah",
+    "verseCount": 9,
+    "revelationPlace": "Meccan",
+    "displayOrder": 104
+  },
+  {
+    "number": 105,
+    "nameArabic": "الفيل",
+    "nameTurkish": "Fîl",
+    "nameTransliteration": "Al-Fil",
+    "verseCount": 5,
+    "revelationPlace": "Meccan",
+    "displayOrder": 105
+  },
+  {
+    "number": 106,
+    "nameArabic": "قريش",
+    "nameTurkish": "Kureyş",
+    "nameTransliteration": "Quraysh",
+    "verseCount": 4,
+    "revelationPlace": "Meccan",
+    "displayOrder": 106
+  },
+  {
+    "number": 107,
+    "nameArabic": "الماعون",
+    "nameTurkish": "Maûn",
+    "nameTransliteration": "Al-Ma'un",
+    "verseCount": 7,
+    "revelationPlace": "Meccan",
+    "displayOrder": 107
+  },
+  {
+    "number": 108,
+    "nameArabic": "الكوثر",
+    "nameTurkish": "Kevser",
+    "nameTransliteration": "Al-Kawthar",
+    "verseCount": 3,
+    "revelationPlace": "Meccan",
+    "displayOrder": 108
+  },
+  {
+    "number": 109,
+    "nameArabic": "الكافرون",
+    "nameTurkish": "Kâfirûn",
+    "nameTransliteration": "Al-Kafirun",
+    "verseCount": 6,
+    "revelationPlace": "Meccan",
+    "displayOrder": 109
+  },
+  {
+    "number": 110,
+    "nameArabic": "النصر",
+    "nameTurkish": "Nasr",
+    "nameTransliteration": "An-Nasr",
+    "verseCount": 3,
+    "revelationPlace": "Medinan",
+    "displayOrder": 110
+  },
+  {
+    "number": 111,
+    "nameArabic": "المسد",
+    "nameTurkish": "Tebbet",
+    "nameTransliteration": "Al-Masad",
+    "verseCount": 5,
+    "revelationPlace": "Meccan",
+    "displayOrder": 111
+  },
+  {
+    "number": 112,
+    "nameArabic": "الإخلاص",
+    "nameTurkish": "İhlâs",
+    "nameTransliteration": "Al-Ikhlas",
+    "verseCount": 4,
+    "revelationPlace": "Meccan",
+    "displayOrder": 112
+  },
+  {
+    "number": 113,
+    "nameArabic": "الفلق",
+    "nameTurkish": "Felak",
+    "nameTransliteration": "Al-Falaq",
+    "verseCount": 5,
+    "revelationPlace": "Meccan",
+    "displayOrder": 113
+  },
+  {
+    "number": 114,
+    "nameArabic": "الناس",
+    "nameTurkish": "Nâs",
+    "nameTransliteration": "An-Nas",
+    "verseCount": 6,
+    "revelationPlace": "Meccan",
+    "displayOrder": 114
+  }
+]

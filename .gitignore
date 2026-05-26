@@ -67,8 +67,10 @@ Thumbs.db
 # Docker volumes
 docker/data/
 
-# Seed data (large or licensed)
+# Seed data (large or licensed). Factual metadata is committed; copyrighted /
+# license-restricted content (verse text, meals) stays out of the repo.
 seed-data/quran/*.json
 seed-data/translations/*.json
 !seed-data/**/.gitkeep
 !seed-data/**/README.md
+!seed-data/quran/surahs.json
