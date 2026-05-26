@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\QuranCompanion.Application\QuranCompanion.Application.csproj" />
+    <ProjectReference Include="..\..\src\QuranCompanion.Infrastructure\QuranCompanion.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
