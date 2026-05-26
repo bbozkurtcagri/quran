@@ -14,7 +14,7 @@ internal sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<A
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var connectionString = Environment.GetEnvironmentVariable("QURANCOMPANION_POSTGRES")
-            ?? "Host=localhost;Port=5432;Database=qurancompanion;Username=qurancompanion;Password=qurancompanion;";
+            ?? "Host=localhost;Port=5433;Database=qurancompanion;Username=qurancompanion;Password=qurancompanion;";
 
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseNpgsql(connectionString, npgsql =>

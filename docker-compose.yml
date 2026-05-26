@@ -8,8 +8,10 @@ services:
       POSTGRES_PASSWORD: qurancompanion
       POSTGRES_DB: qurancompanion
       PGDATA: /var/lib/postgresql/data/pgdata
+    # Host port 5433 to avoid clashing with other local Postgres instances
+    # (e.g. Homebrew postgres, my-postgres container) that bind 5432.
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - qurancompanion-pgdata:/var/lib/postgresql/data
       - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro

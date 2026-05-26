@@ -61,9 +61,11 @@ Schemas:
 docker compose up -d
 ```
 
-This runs `pgvector/pgvector:pg17` on port 5432, creates the database
-`qurancompanion`, and runs `docker/postgres/init/01-extensions.sql` which
-installs all required extensions and schemas.
+This runs `pgvector/pgvector:pg17` on **host port 5433** (mapped to the
+container's internal 5432 — chosen to avoid clashing with other local Postgres
+instances), creates the database `qurancompanion`, and runs
+`docker/postgres/init/01-extensions.sql` which installs all required extensions
+and schemas.
 
 ### 2. Apply migrations and seed
 
