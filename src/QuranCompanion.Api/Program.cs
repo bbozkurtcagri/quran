@@ -23,6 +23,28 @@ builder.Services.AddScoped<SeedRunner>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+// Route framework-level model binding/validation failures through our
+// ApiResponse envelope so clients always get the same shape on 400.
+builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(kvp => kvp.Value?.Errors.Count > 0)
+            .SelectMany(kvp => kvp.Value!.Errors
+                .Select(e => new ApiError(
+                    "validation_error",
+                    string.IsNullOrEmpty(e.ErrorMessage)
+                        ? $"The {kvp.Key} field is invalid."
+                        : e.ErrorMessage,
+                    kvp.Key)))
+            .ToList();
+
+        return new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(
+            ApiResponse<object>.Fail("Validation failed", errors));
+    };
+});
+
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
@@ -69,13 +91,8 @@ var app = builder.Build();
 if (args.Length > 0 && string.Equals(args[0], "seed", StringComparison.OrdinalIgnoreCase))
 {
     var seedDirectory = args.Length > 1
-        ? args[1]
-        : Path.Combine(Directory.GetCurrentDirectory(), "seed-data");
-
-    if (!Path.IsPathRooted(seedDirectory))
-    {
-        seedDirectory = Path.GetFullPath(seedDirectory);
-    }
+        ? Path.GetFullPath(args[1])
+        : ResolveSeedDirectory();
 
     using var scope = app.Services.CreateScope();
     var seedRunner = scope.ServiceProvider.GetRequiredService<SeedRunner>();
@@ -85,6 +102,24 @@ if (args.Length > 0 && string.Equals(args[0], "seed", StringComparison.OrdinalIg
     await seedRunner.RunAsync(seedDirectory, CancellationToken.None);
     seedLogger.LogInformation("Seed completed.");
     return;
+}
+
+static string ResolveSeedDirectory()
+{
+    // Walk up from the CWD looking for a seed-data/ folder so the CLI works
+    // whether invoked from the repo root or from inside the project directory
+    // (which is what `dotnet run --project …` does).
+    var dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+    while (dir is not null)
+    {
+        var candidate = Path.Combine(dir.FullName, "seed-data");
+        if (Directory.Exists(candidate))
+        {
+            return candidate;
+        }
+        dir = dir.Parent;
+    }
+    return Path.Combine(Directory.GetCurrentDirectory(), "seed-data");
 }
 
 app.UseForwardedHeaders();
