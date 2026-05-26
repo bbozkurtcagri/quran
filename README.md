@@ -86,8 +86,9 @@ sources.
 dotnet run --project src/QuranCompanion.Api
 ```
 
-The default profile listens on `http://localhost:5000`. Swagger UI is mounted
-at `/swagger` in Development.
+The default profile listens on `http://localhost:5000`. In Development, the
+OpenAPI document is served at `/openapi/v1.json` and a [Scalar](https://github.com/scalar/scalar)
+reference UI is mounted at `/scalar/v1`.
 
 ### 4. Run tests
 

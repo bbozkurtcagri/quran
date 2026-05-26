@@ -5,6 +5,7 @@ using QuranCompanion.Api.Common;
 using QuranCompanion.Api.Seeding;
 using QuranCompanion.Application;
 using QuranCompanion.Infrastructure;
+using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<SeedRunner>();
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -92,10 +92,13 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "QuranCompanion API v1");
+        options
+            .WithTitle("QuranCompanion API")
+            .WithTheme(ScalarTheme.Default)
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
     });
 }
 
