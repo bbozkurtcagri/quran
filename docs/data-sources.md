@@ -250,9 +250,13 @@ literal.
 
 - [x] Download Tanzil Uthmani-Minimal 1.1 plain text — via AlQuran Cloud
       `quran-uthmani-min` edition, 2026-05-26.
-- [ ] Pull a clean Elmalılı meal-only dataset; verify a sample against the
-      Internet Archive scan.
-- [ ] Update `seed-data/translations/sources.json` and `elmalili.json`
-      (currently absent — gitignored).
-- [ ] When committing seeded data, ensure attribution strings on
-      `translation_sources` are exactly what each source requires.
+- [x] Pull a clean Elmalılı meal-only dataset — via Quran.com translator
+      ID 52 (`/api/v4/quran/translations/52`), 2026-05-26. 6,236 records
+      joined to verse coordinates via the local `verses.json`. Spot-checked
+      Al-Fatihah, Al-Baqarah, At-Tawbah, Al-Ikhlas, An-Nas. Full Internet
+      Archive cross-check remains an open item if anyone hits a suspect
+      verse.
+- [x] Register `seed-data/translations/sources.json` (committed). The actual
+      `elmalili.json` (1.4 MB) stays gitignored alongside `verses.json`.
+- [x] Attribution strings on `translation_sources` records match this
+      document's "Final decisions" section verbatim.

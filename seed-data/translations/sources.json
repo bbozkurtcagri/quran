@@ -1,0 +1,24 @@
+[
+  {
+    "code": "tanzil-uthmani-minimal",
+    "name": "Tanzil — Uthmani Minimal",
+    "languageCode": "ar",
+    "author": "Tanzil Project",
+    "description": "Arabic mushaf text, Uthmani minimal recension.",
+    "licenseInfo": "Verbatim distribution permitted. Modification prohibited. Attribution to Tanzil Project (https://tanzil.net) required.",
+    "sourceUrl": "https://tanzil.net/download/",
+    "isDefault": false,
+    "isActive": true
+  },
+  {
+    "code": "elmalili",
+    "name": "Elmalılı Hamdi Yazır — Meal",
+    "languageCode": "tr",
+    "author": "Elmalılı Muhammed Hamdi Yazır",
+    "description": "Hak Dini Kur'an Dili — meal portion (1935–1938).",
+    "licenseInfo": "Public domain in Türkiye since 1 January 2013 (FSEK Art. 27).",
+    "sourceUrl": "https://archive.org/details/ElmaliliKuranTefsiri",
+    "isDefault": true,
+    "isActive": true
+  }
+]

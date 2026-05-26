@@ -74,3 +74,4 @@ seed-data/translations/*.json
 !seed-data/**/.gitkeep
 !seed-data/**/README.md
 !seed-data/quran/surahs.json
+!seed-data/translations/sources.json
