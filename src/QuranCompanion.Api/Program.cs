@@ -154,11 +154,24 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+
+// Swallow client-cancellation exceptions so Serilog sees a normal 499 return
+// rather than an unhandled exception. Sits inside Serilog (so 499 is logged)
+// but outside the rest, since UseExceptionHandler re-throws cancellation
+// exceptions and would bypass any IExceptionHandler we register.
+app.UseMiddleware<ClientCancellationMiddleware>();
+
 app.UseCors();
 app.UseRateLimiter();
 
-app.UseOutputCache();
-app.UseMiddleware<ETagMiddleware>();
+// OutputCache + ETag middleware are temporarily disabled. They cause empty
+// responses to be served to concurrent clients when one of them aborts
+// mid-flight (single-flight coalescing returns the cancelled response to
+// waiters). Cache-Control headers continue to let the browser cache freely.
+// Re-enable after splitting the policy to opt out of request coalescing
+// or porting ETag middleware to IHttpResponseBodyFeature.
+// app.UseOutputCache();
+// app.UseMiddleware<ETagMiddleware>();
 
 app.MapControllers();
 

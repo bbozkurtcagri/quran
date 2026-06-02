@@ -12,6 +12,16 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
         Exception exception,
         CancellationToken cancellationToken)
     {
+        // Client closed the connection (e.g. browser abort, request timeout)
+        // or a downstream cancellation propagated up. There's no useful
+        // response to write. Mark the status as 499 (non-2xx) so the output
+        // cache doesn't store this as a successful result. We don't check
+        // RequestAborted.IsCancellationRequested here — it can race against
+        // the exception bubbling up, leaving us logging a noisy 500 and
+        // poisoning the cache.
+        // OperationCanceledException is intercepted by ClientCancellationMiddleware
+        // before this handler runs, so we don't have a branch for it here.
+
         switch (exception)
         {
             case ValidationException validationException:
