@@ -55,17 +55,25 @@ Schemas:
 
 ## Local development
 
-### 1. Start PostgreSQL
+### 1. Start the stack
+
+Two services are defined:
+
+| Service    | Host port | Purpose                                                       |
+| ---------- | --------- | ------------------------------------------------------------- |
+| `postgres` | **5433**  | `pgvector/pgvector:pg17`, init script loads pg_trgm/unaccent/vector + schemas |
+| `api`      | **8085**  | The containerized API, talks to `postgres` over the compose network |
 
 ```bash
+# Postgres only (the common dev loop — run the API on the host with hot reload)
+docker compose up -d postgres
+
+# Everything — Postgres + containerized API
 docker compose up -d
 ```
 
-This runs `pgvector/pgvector:pg17` on **host port 5433** (mapped to the
-container's internal 5432 — chosen to avoid clashing with other local Postgres
-instances), creates the database `qurancompanion`, and runs
-`docker/postgres/init/01-extensions.sql` which installs all required extensions
-and schemas.
+Host port 5433 is used for Postgres to avoid clashing with other local Postgres
+instances; the containerized API hits the in-network Postgres at port 5432.
 
 ### 2. Apply migrations and seed
 
@@ -84,13 +92,20 @@ sources.
 
 ### 3. Run the API
 
+Two options:
+
 ```bash
+# A) On the host — hot reload, Development profile, port 5185
 dotnet run --project src/QuranCompanion.Api
+
+# B) In the container — Production profile, port 8085 (started by `docker compose up`)
+docker compose up -d api
+curl http://localhost:8085/health/live
 ```
 
-The default profile listens on `http://localhost:5000`. In Development, the
-OpenAPI document is served at `/openapi/v1.json` and a [Scalar](https://github.com/scalar/scalar)
-reference UI is mounted at `/scalar/v1`.
+In Development, the OpenAPI document is served at `/openapi/v1.json` and a
+[Scalar](https://github.com/scalar/scalar) reference UI is mounted at
+`/scalar/v1`. The Production-profile container exposes the API only.
 
 ### 4. Run tests
 

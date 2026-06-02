@@ -1,0 +1,41 @@
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# IDE / editor
+**/.vs/
+**/.vscode/
+**/.idea/
+*.user
+*.suo
+
+# Git & CI
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# Tests — not needed for runtime image
+tests/
+
+# Docs / housekeeping
+*.md
+docs/
+LICENSE
+
+# Local state
+docker/data/
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large or licensed seed payloads — never bake into the image.
+seed-data/quran/verses.json
+seed-data/translations/elmalili.json

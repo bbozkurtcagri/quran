@@ -21,6 +21,30 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qurancompanion-api
+    restart: unless-stopped
+    # Host port 8085 so a host-side `dotnet run` on 5185 can coexist.
+    ports:
+      - "8085:8080"
+    environment:
+      # Service-to-service: 'postgres' resolves via the compose network.
+      # Inside the container we use the internal port 5432, not the host's 5433.
+      ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=qurancompanion;Username=qurancompanion;Password=qurancompanion;Include Error Detail=true"
+      ASPNETCORE_ENVIRONMENT: "Production"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8080/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
 volumes:
   qurancompanion-pgdata:
     name: qurancompanion-pgdata
