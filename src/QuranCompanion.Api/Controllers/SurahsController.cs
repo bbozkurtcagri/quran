@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using QuranCompanion.Api.Common;
 using QuranCompanion.Application.Common.Models;
 using QuranCompanion.Application.Features.Surahs.Dtos;
@@ -12,6 +13,8 @@ namespace QuranCompanion.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/surahs")]
+[CacheControl(CachePolicies.Immutable)]
+[OutputCache(PolicyName = "Immutable")]
 public sealed class SurahsController(ISender sender) : ControllerBase
 {
     [HttpGet]

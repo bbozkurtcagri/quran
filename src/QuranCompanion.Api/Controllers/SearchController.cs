@@ -9,6 +9,7 @@ namespace QuranCompanion.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/search")]
+[CacheControl(CachePolicies.NoStore)]
 public sealed class SearchController(ISender sender) : ControllerBase
 {
     [HttpGet]

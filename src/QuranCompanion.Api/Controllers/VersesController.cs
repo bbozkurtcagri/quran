@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using QuranCompanion.Api.Common;
 using QuranCompanion.Application.Features.Verses.Dtos;
 using QuranCompanion.Application.Features.Verses.Queries.GetVerseByGlobalNumber;
@@ -9,6 +10,8 @@ namespace QuranCompanion.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/verses")]
+[CacheControl(CachePolicies.Immutable)]
+[OutputCache(PolicyName = "Immutable")]
 public sealed class VersesController(ISender sender) : ControllerBase
 {
     [HttpGet("{surahNumber:int}/{verseNumber:int}")]

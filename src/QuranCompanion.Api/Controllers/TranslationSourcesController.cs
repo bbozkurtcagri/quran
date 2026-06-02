@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using QuranCompanion.Api.Common;
 using QuranCompanion.Application.Features.TranslationSources.Dtos;
 using QuranCompanion.Application.Features.TranslationSources.Queries.GetTranslationSources;
@@ -8,6 +9,8 @@ namespace QuranCompanion.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/translation-sources")]
+[CacheControl(CachePolicies.TranslationSources)]
+[OutputCache(PolicyName = "TranslationSources")]
 public sealed class TranslationSourcesController(ISender sender) : ControllerBase
 {
     [HttpGet]

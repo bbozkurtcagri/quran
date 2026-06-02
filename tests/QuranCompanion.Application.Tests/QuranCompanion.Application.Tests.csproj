@@ -23,6 +23,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\QuranCompanion.Application\QuranCompanion.Application.csproj" />
     <ProjectReference Include="..\..\src\QuranCompanion.Infrastructure\QuranCompanion.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\QuranCompanion.Api\QuranCompanion.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

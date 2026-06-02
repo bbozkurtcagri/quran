@@ -48,6 +48,22 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+builder.Services.AddOutputCache(options =>
+{
+    // Immutable Quran data — cache aggressively server-side. Cache key
+    // includes the path and query string by default.
+    options.AddPolicy("Immutable", policy => policy
+        .Expire(TimeSpan.FromHours(24))
+        .SetVaryByQuery("translationSourceCode", "page", "pageSize")
+        .Tag("quran"));
+
+    // Translation sources: short TTL so admin changes propagate quickly.
+    options.AddPolicy("TranslationSources", policy => policy
+        .Expire(TimeSpan.FromMinutes(5))
+        .SetVaryByQuery("languageCode")
+        .Tag("translation-sources"));
+});
+
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -140,6 +156,9 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 app.UseCors();
 app.UseRateLimiter();
+
+app.UseOutputCache();
+app.UseMiddleware<ETagMiddleware>();
 
 app.MapControllers();
 
