@@ -1,0 +1,221 @@
+:root {
+  --bg: #0f1115;
+  --surface: #171a21;
+  --surface-2: #1f232c;
+  --border: #2a2f3a;
+  --text: #e6e8ee;
+  --text-dim: #9aa0ac;
+  --accent: #6aa9ff;
+  --accent-soft: #1a2a47;
+  --danger: #ff6b6b;
+  --radius: 10px;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.app { min-height: 100%; display: flex; flex-direction: column; }
+
+.app-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.app-brand {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.app-nav { display: flex; gap: 1rem; margin-left: auto; }
+.app-nav__link {
+  color: var(--text-dim);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+.app-nav__link:hover { color: var(--text); text-decoration: none; }
+.app-nav__link.is-active { color: var(--text); background: var(--accent-soft); }
+
+.app-main { flex: 1; }
+.app-footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 1rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.page { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.page__title { margin: 0 0 0.25rem; font-size: 1.5rem; }
+.page__lead { margin: 0 0 1.5rem; color: var(--text-dim); }
+
+.link { font-size: 0.9rem; }
+.link--back { display: inline-block; margin-bottom: 1rem; }
+
+.state {
+  padding: 1rem;
+  color: var(--text-dim);
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+.state--error { color: var(--danger); border-color: var(--danger); }
+
+/* Surah list */
+.surah-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+.surah-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  color: var(--text);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.surah-card:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.surah-card__number {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: 0.85rem; font-weight: 600;
+}
+.surah-card__name-tr { font-weight: 600; }
+.surah-card__name-translit { color: var(--text-dim); font-size: 0.8rem; }
+.surah-card__meta { text-align: right; }
+.surah-card__name-ar { font-size: 1.05rem; }
+.surah-card__count { color: var(--text-dim); font-size: 0.75rem; margin-top: 0.15rem; }
+
+/* Surah detail header */
+.surah-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.25rem;
+}
+.surah-header__number {
+  width: 54px; height: 54px;
+  display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent);
+  border-radius: 50%; font-size: 1.25rem; font-weight: 700;
+}
+.surah-header__name { margin: 0; font-size: 1.4rem; }
+.surah-header__arabic { font-size: 1.1rem; color: var(--text); margin-top: 0.15rem; }
+.surah-header__meta { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.25rem; }
+
+/* Verse list */
+.verses { display: flex; flex-direction: column; gap: 0.75rem; }
+.verse {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+.verse__header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.8rem; color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem; margin-bottom: 0.75rem;
+}
+.verse__number { color: var(--accent); font-weight: 600; }
+.verse__arabic {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  line-height: 2.4;
+  text-align: right;
+  color: var(--text);
+}
+.verse__meal { margin: 0; color: var(--text); }
+
+/* Search */
+.search-form {
+  display: flex; gap: 0.5rem; margin-bottom: 1.25rem;
+}
+.search-input {
+  flex: 1;
+  padding: 0.7rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+}
+.search-input:focus {
+  outline: none; border-color: var(--accent);
+}
+.search-button {
+  padding: 0.7rem 1.2rem;
+  background: var(--accent);
+  color: #0f1115;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.search-button:hover { filter: brightness(1.05); }
+
+.search-results__summary {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.75rem;
+}
+.search-hit {
+  display: block;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  transition: border-color 0.15s;
+}
+.search-hit:hover { text-decoration: none; border-color: var(--accent); }
+.search-hit__location {
+  font-size: 0.8rem; color: var(--accent); margin-bottom: 0.25rem; font-weight: 600;
+}
+.search-hit__text { color: var(--text); }

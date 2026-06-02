@@ -113,6 +113,21 @@ In Development, the OpenAPI document is served at `/openapi/v1.json` and a
 dotnet test
 ```
 
+## Web UI
+
+A minimal React + Vite client lives at [`apps/web/`](apps/web/) — surah list,
+surah detail (Arabic + Elmalılı meal), and meal search.
+
+```bash
+cd apps/web
+npm install
+cp .env.example .env.local
+npm run dev
+# → http://localhost:5173
+```
+
+See [`apps/web/README.md`](apps/web/README.md) for details.
+
 ## API endpoints (Phase 1)
 
 All responses use the envelope:
