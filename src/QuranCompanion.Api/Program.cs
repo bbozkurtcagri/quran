@@ -50,17 +50,21 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddOutputCache(options =>
 {
-    // Immutable Quran data — cache aggressively server-side. Cache key
-    // includes the path and query string by default.
+    // SetLocking(false) disables single-flight coalescing across concurrent
+    // requests for the same cache key. With it on, a client that aborts
+    // mid-flight can leave concurrent waiters reading an empty/partial body
+    // (we hit this during browser StrictMode double-effect). Concurrent
+    // requests now each execute independently — fine for our small handlers.
     options.AddPolicy("Immutable", policy => policy
         .Expire(TimeSpan.FromHours(24))
         .SetVaryByQuery("translationSourceCode", "page", "pageSize")
+        .SetLocking(false)
         .Tag("quran"));
 
-    // Translation sources: short TTL so admin changes propagate quickly.
     options.AddPolicy("TranslationSources", policy => policy
         .Expire(TimeSpan.FromMinutes(5))
         .SetVaryByQuery("languageCode")
+        .SetLocking(false)
         .Tag("translation-sources"));
 });
 
@@ -164,14 +168,8 @@ app.UseMiddleware<ClientCancellationMiddleware>();
 app.UseCors();
 app.UseRateLimiter();
 
-// OutputCache + ETag middleware are temporarily disabled. They cause empty
-// responses to be served to concurrent clients when one of them aborts
-// mid-flight (single-flight coalescing returns the cancelled response to
-// waiters). Cache-Control headers continue to let the browser cache freely.
-// Re-enable after splitting the policy to opt out of request coalescing
-// or porting ETag middleware to IHttpResponseBodyFeature.
-// app.UseOutputCache();
-// app.UseMiddleware<ETagMiddleware>();
+app.UseOutputCache();
+app.UseMiddleware<ETagMiddleware>();
 
 app.MapControllers();
 
@@ -182,3 +180,7 @@ app.MapHealthChecks("/health/ready", new()
 });
 
 app.Run();
+
+// Surface Program as a public partial class so WebApplicationFactory<Program>
+// can use it as the test entry point.
+public partial class Program;
