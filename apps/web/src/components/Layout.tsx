@@ -10,7 +10,7 @@ export function Layout() {
         <div className="mx-auto max-w-6xl px-6 pt-6">
           <div className="flex items-center justify-between rounded-full border border-border bg-bg-elev/85 px-5 py-2.5 backdrop-blur-md">
             <NavLink to="/" className="font-serif italic text-[19px] leading-none tracking-tight">
-              Kur'an Companion
+              Kur&apos;an Meali
             </NavLink>
             <nav className="flex items-center gap-1.5">
               <NavTab to="/" label="Sureler" end />

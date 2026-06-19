@@ -75,7 +75,7 @@ export function SearchPage() {
       <header className="pt-20 pb-16 md:pt-28 md:pb-20 text-center">
         <Eyebrow className="mb-6">Elmalılı meali içinde arama</Eyebrow>
         <h1 className="font-serif text-6xl md:text-7xl leading-[1.05] tracking-tight optical-display">
-          Meal araması
+          Arama
         </h1>
         <div className="mt-10">
           <SectionRule />
