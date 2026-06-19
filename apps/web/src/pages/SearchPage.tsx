@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { searchVerses } from "../api/client";
 import type { PagedResult, VerseSearchHit } from "../api/types";
+import { Eyebrow } from "../components/Eyebrow";
+import { SectionRule } from "../components/SectionRule";
+
+const DEBOUNCE_MS = 300;
+const MIN_QUERY = 2;
 
 export function SearchPage() {
   const [params, setParams] = useSearchParams();
@@ -12,10 +17,29 @@ export function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Debounce: write the input value to the URL after a quiet period.
+  const debounceRef = useRef<number | undefined>(undefined);
+  useEffect(() => {
+    window.clearTimeout(debounceRef.current);
+    debounceRef.current = window.setTimeout(() => {
+      const trimmed = input.trim();
+      if (trimmed === (params.get("q") ?? "")) return;
+      if (trimmed.length === 0) {
+        setParams({}, { replace: true });
+      } else if (trimmed.length >= MIN_QUERY) {
+        setParams({ q: trimmed }, { replace: true });
+      }
+    }, DEBOUNCE_MS);
+
+    return () => window.clearTimeout(debounceRef.current);
+  }, [input, params, setParams]);
+
+  // Fetch on URL change.
   useEffect(() => {
     const q = params.get("q")?.trim();
-    if (!q || q.length < 2) {
+    if (!q || q.length < MIN_QUERY) {
       setResults(null);
+      setError(null);
       return;
     }
 
@@ -35,62 +59,133 @@ export function SearchPage() {
     return () => ctrl.abort();
   }, [params]);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const trimmed = input.trim();
-    if (trimmed.length < 2) {
-      setError("Arama metni en az 2 karakter olmalı.");
-      return;
+  const totalLabel = useMemo(() => {
+    if (!results) return null;
+    if (results.totalCount === 0) return "Sonuç yok";
+    if (results.totalCount > results.items.length) {
+      return `${results.totalCount} sonuç · ilk ${results.items.length} gösteriliyor`;
     }
-    setParams({ q: trimmed });
-  }
+    return `${results.totalCount} sonuç`;
+  }, [results]);
+
+  const queryNonce = params.get("q") ?? "";
 
   return (
-    <div className="page">
-      <h1 className="page__title">Meal araması</h1>
-      <p className="page__lead">Elmalılı meali içinde arama yapar.</p>
-      <form className="search-form" onSubmit={onSubmit}>
+    <div className="mx-auto max-w-3xl px-6">
+      <header className="pt-20 pb-16 md:pt-28 md:pb-20 text-center">
+        <Eyebrow className="mb-6">Elmalılı meali içinde arama</Eyebrow>
+        <h1 className="font-serif text-6xl md:text-7xl leading-[1.05] tracking-tight optical-display">
+          Meal araması
+        </h1>
+        <div className="mt-10">
+          <SectionRule />
+        </div>
+      </header>
+
+      <div className="pb-8">
+        <label htmlFor="search-input" className="sr-only">
+          Arama metni
+        </label>
         <input
+          id="search-input"
           type="text"
-          className="search-input"
-          placeholder="örn. sabır, namaz, adalet"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          placeholder="örn. sabır · namaz · adalet"
           autoFocus
+          spellCheck={false}
+          className="w-full bg-transparent font-reading text-2xl md:text-3xl py-4 border-b border-border focus:border-accent outline-none transition-colors duration-300 ease-[var(--ease-skill)] placeholder:text-text-muted/60"
         />
-        <button type="submit" className="search-button">
-          Ara
-        </button>
-      </form>
+      </div>
 
-      {error && <div className="state state--error">Hata: {error}</div>}
-      {loading && <div className="state">Aranıyor…</div>}
+      <div className="min-h-[40vh] pb-32">
+        {error && (
+          <p className="my-12 text-center font-reading text-text-muted">{error}</p>
+        )}
 
-      {results && !loading && (
-        <div className="search-results">
-          <div className="search-results__summary">
-            <strong>{results.totalCount}</strong> sonuç bulundu
-            {results.totalCount > results.items.length && (
-              <span> · ilk {results.items.length} gösteriliyor</span>
-            )}
-          </div>
-          {results.items.length === 0 && (
-            <div className="state">Sonuç yok.</div>
-          )}
-          {results.items.map((hit) => (
-            <Link
-              key={hit.globalVerseNumber}
-              to={`/surahs/${hit.surahNumber}#v${hit.verseNumber}`}
-              className="search-hit"
-            >
-              <div className="search-hit__location">
-                {hit.surahNameTurkish} · {hit.surahNumber}:{hit.verseNumber}
-              </div>
-              <div className="search-hit__text">{hit.translationText}</div>
-            </Link>
-          ))}
-        </div>
-      )}
+        {!error && loading && (
+          <p className="my-12 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-text-muted">
+            Aranıyor
+          </p>
+        )}
+
+        {!error && results && !loading && (
+          <>
+            <div className="flex items-center justify-between py-4 border-b border-border">
+              <Eyebrow>{totalLabel}</Eyebrow>
+              <Eyebrow>Elmalılı</Eyebrow>
+            </div>
+
+            {results.items.map((hit) => (
+              <SearchResult key={hit.globalVerseNumber} hit={hit} highlight={queryNonce} />
+            ))}
+          </>
+        )}
+
+        {!error && !loading && !results && input.trim().length === 0 && (
+          <p className="my-16 text-center font-reading text-text-muted">
+            Aramaya başlamak için bir kelime yazın.
+          </p>
+        )}
+      </div>
     </div>
+  );
+}
+
+function SearchResult({ hit, highlight }: { hit: VerseSearchHit; highlight: string }) {
+  return (
+    <Link
+      to={`/surahs/${hit.surahNumber}#v${hit.verseNumber}`}
+      className="block py-8 border-b border-border group transition-colors duration-200 ease-[var(--ease-skill)] hover:bg-accent-soft/50 -mx-2 px-2 rounded-sm"
+    >
+      <div className="flex items-baseline justify-between gap-4 mb-3">
+        <Eyebrow>
+          {hit.surahNameTurkish} · {hit.surahNumber}:{hit.verseNumber}
+        </Eyebrow>
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-[var(--ease-skill)]">
+          Oku ↗
+        </span>
+      </div>
+      <p className="font-reading text-[17px] leading-[1.7] text-text">
+        {renderWithHighlight(hit.translationText, highlight)}
+      </p>
+    </Link>
+  );
+}
+
+function renderWithHighlight(text: string, query: string) {
+  const trimmed = query.trim();
+  if (trimmed.length < MIN_QUERY) return text;
+
+  // Naive case- and Turkish-i-insensitive split. The server already matched;
+  // this is purely visual emphasis.
+  const lowered = text.toLocaleLowerCase("tr");
+  const target = trimmed.toLocaleLowerCase("tr");
+  const parts: Array<{ text: string; match: boolean }> = [];
+  let i = 0;
+  while (i < text.length) {
+    const idx = lowered.indexOf(target, i);
+    if (idx === -1) {
+      parts.push({ text: text.slice(i), match: false });
+      break;
+    }
+    if (idx > i) {
+      parts.push({ text: text.slice(i, idx), match: false });
+    }
+    parts.push({ text: text.slice(idx, idx + target.length), match: true });
+    i = idx + target.length;
+  }
+
+  return parts.map((p, k) =>
+    p.match ? (
+      <mark
+        key={k}
+        className="bg-transparent text-accent font-[500] underline decoration-accent/40 underline-offset-[3px]"
+      >
+        {p.text}
+      </mark>
+    ) : (
+      <span key={k}>{p.text}</span>
+    ),
   );
 }

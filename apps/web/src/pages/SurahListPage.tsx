@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getSurahs } from "../api/client";
 import type { SurahListItem } from "../api/types";
+import { Eyebrow } from "../components/Eyebrow";
+import { SectionRule } from "../components/SectionRule";
 import { SurahCard } from "../components/SurahCard";
 
 export function SurahListPage() {
@@ -19,25 +21,37 @@ export function SurahListPage() {
     return () => ctrl.abort();
   }, []);
 
-  if (error) {
-    return <div className="state state--error">Hata: {error}</div>;
-  }
-
-  if (!surahs) {
-    return <div className="state">Sureler yükleniyor…</div>;
-  }
-
   return (
-    <div className="page">
-      <h1 className="page__title">Sureler</h1>
-      <p className="page__lead">
-        Kur'an-ı Kerim · 114 sure · {surahs.reduce((sum, s) => sum + s.verseCount, 0)} ayet
-      </p>
-      <div className="surah-grid">
-        {surahs.map((s) => (
-          <SurahCard key={s.number} surah={s} />
-        ))}
-      </div>
+    <div className="mx-auto max-w-5xl px-6">
+      <header className="pt-20 pb-16 md:pt-28 md:pb-20 text-center">
+        <Eyebrow className="mb-6">Kur'an-ı Kerim · 114 sure · 6236 ayet</Eyebrow>
+        <h1 className="font-serif text-6xl md:text-8xl leading-[1.02] tracking-tight optical-display">
+          Sureler
+        </h1>
+        <div className="mt-10">
+          <SectionRule />
+        </div>
+      </header>
+
+      {error && (
+        <div className="my-12 mx-auto max-w-md text-center font-reading text-text-muted">
+          {error}
+        </div>
+      )}
+
+      {!error && !surahs && (
+        <div className="my-24 text-center font-mono text-xs uppercase tracking-[0.22em] text-text-muted">
+          Yükleniyor
+        </div>
+      )}
+
+      {surahs && (
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-12 pb-24">
+          {surahs.map((s) => (
+            <SurahCard key={s.number} surah={s} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

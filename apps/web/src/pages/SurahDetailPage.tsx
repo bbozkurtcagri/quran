@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getSurahDetail, getSurahVerses } from "../api/client";
 import type { SurahDetail, VerseSummary } from "../api/types";
-import { VerseCard } from "../components/VerseCard";
+import { Eyebrow } from "../components/Eyebrow";
+import { SectionRule } from "../components/SectionRule";
+import { Verse } from "../components/Verse";
 
-const PLACE_LABELS: Record<SurahDetail["revelationPlace"], string> = {
+const PLACE_LABEL: Record<SurahDetail["revelationPlace"], string> = {
   Meccan: "Mekkî",
   Medinan: "Medenî",
   Unknown: "—",
@@ -48,9 +50,13 @@ export function SurahDetailPage() {
 
   if (error) {
     return (
-      <div className="page">
-        <div className="state state--error">Hata: {error}</div>
-        <Link to="/" className="link">
+      <div className="mx-auto max-w-2xl px-6 py-32 text-center">
+        <Eyebrow className="mb-4">Hata</Eyebrow>
+        <p className="font-reading text-lg text-text-muted">{error}</p>
+        <Link
+          to="/"
+          className="mt-8 inline-block font-mono text-[11px] uppercase tracking-[0.22em] text-accent hover:underline"
+        >
           ← Sure listesine dön
         </Link>
       </div>
@@ -58,31 +64,51 @@ export function SurahDetailPage() {
   }
 
   if (!surah || !verses) {
-    return <div className="state">Yükleniyor…</div>;
+    return (
+      <div className="my-32 text-center font-mono text-xs uppercase tracking-[0.22em] text-text-muted">
+        Yükleniyor
+      </div>
+    );
   }
 
   return (
-    <div className="page">
-      <Link to="/" className="link link--back">
-        ← Sure listesi
-      </Link>
-      <header className="surah-header">
-        <div className="surah-header__number">{surah.number}</div>
-        <div>
-          <h1 className="surah-header__name">{surah.nameTurkish}</h1>
-          <div className="surah-header__arabic" lang="ar" dir="rtl">
-            {surah.nameArabic}
-          </div>
-          <div className="surah-header__meta">
-            {PLACE_LABELS[surah.revelationPlace]} · {surah.verseCount} ayet
-          </div>
+    <article className="mx-auto max-w-3xl px-6">
+      <div className="pt-12">
+        <Link
+          to="/"
+          className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-muted hover:text-text transition-colors duration-200 ease-[var(--ease-skill)]"
+        >
+          ← Sureler
+        </Link>
+      </div>
+
+      <header className="pt-16 pb-20 md:pt-24 md:pb-24 text-center">
+        <Eyebrow className="mb-6">
+          Sure {surah.number} · {PLACE_LABEL[surah.revelationPlace]} · {surah.verseCount} ayet
+        </Eyebrow>
+        <h1 className="font-serif text-6xl md:text-7xl leading-[1.05] tracking-tight optical-display">
+          {surah.nameTurkish}
+        </h1>
+        <p
+          lang="ar"
+          dir="rtl"
+          className="font-arabic text-5xl md:text-6xl text-accent mt-6"
+        >
+          {surah.nameArabic}
+        </p>
+        <p className="mt-3 font-mono text-xs uppercase tracking-[0.22em] text-text-muted">
+          {surah.nameTransliteration}
+        </p>
+        <div className="mt-12">
+          <SectionRule />
         </div>
       </header>
-      <div className="verses">
+
+      <div className="pb-32">
         {verses.map((v) => (
-          <VerseCard key={v.globalVerseNumber} verse={v} />
+          <Verse key={v.globalVerseNumber} verse={v} />
         ))}
       </div>
-    </div>
+    </article>
   );
 }
