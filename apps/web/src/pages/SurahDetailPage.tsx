@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getSurahDetail, getSurahVerses } from "../api/client";
 import type { SurahDetail, VerseSummary } from "../api/types";
 import { Eyebrow } from "../components/Eyebrow";
 import { SectionRule } from "../components/SectionRule";
 import { Verse } from "../components/Verse";
+import { useLastRead } from "../hooks/useLastRead";
 
 const PLACE_LABEL: Record<SurahDetail["revelationPlace"], string> = {
   Meccan: "Mekkî",
@@ -14,11 +15,14 @@ const PLACE_LABEL: Record<SurahDetail["revelationPlace"], string> = {
 
 export function SurahDetailPage() {
   const { number } = useParams<{ number: string }>();
+  const { hash } = useLocation();
   const surahNumber = number ? parseInt(number, 10) : NaN;
 
   const [surah, setSurah] = useState<SurahDetail | null>(null);
   const [verses, setVerses] = useState<VerseSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const { save: saveLastRead } = useLastRead();
 
   useEffect(() => {
     if (Number.isNaN(surahNumber)) {
@@ -47,6 +51,19 @@ export function SurahDetailPage() {
 
     return () => ctrl.abort();
   }, [surahNumber]);
+
+  // Remember where the reader is. If the URL carries #vN we honour it; otherwise
+  // we mark the top of the surah so 'Devam et' lands them somewhere sensible.
+  useEffect(() => {
+    if (!surah) return;
+    const m = hash.match(/^#v(\d+)$/);
+    const verseNumber = m ? parseInt(m[1], 10) : 1;
+    saveLastRead({
+      surahNumber: surah.number,
+      surahNameTurkish: surah.nameTurkish,
+      verseNumber,
+    });
+  }, [surah, hash, saveLastRead]);
 
   if (error) {
     return (
