@@ -21,6 +21,22 @@ services:
       timeout: 5s
       retries: 10
 
+  embedder:
+    build:
+      context: ./services/embedder
+      dockerfile: Dockerfile
+    container_name: qurancompanion-embedder
+    restart: unless-stopped
+    # Host port 8001 so it doesn't clash with the API and is easy to curl.
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+
   api:
     build:
       context: .
@@ -34,9 +50,12 @@ services:
       # Service-to-service: 'postgres' resolves via the compose network.
       # Inside the container we use the internal port 5432, not the host's 5433.
       ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=qurancompanion;Username=qurancompanion;Password=qurancompanion;Include Error Detail=true"
+      Embedder__BaseUrl: "http://embedder:8000"
       ASPNETCORE_ENVIRONMENT: "Production"
     depends_on:
       postgres:
+        condition: service_healthy
+      embedder:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8080/health/live"]

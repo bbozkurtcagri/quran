@@ -1,0 +1,13 @@
+[project]
+name = "qurancompanion-embedder"
+version = "0.1.0"
+description = "Multilingual sentence embedder for QuranCompanion semantic search"
+requires-python = ">=3.11"
+dependencies = [
+    # Pinned to a known-stable transformer + torch combo. Update together.
+    "fastapi==0.115.0",
+    "uvicorn[standard]==0.30.6",
+    "sentence-transformers==3.1.1",
+    "torch==2.4.1",
+    "numpy<2.0",
+]
