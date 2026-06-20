@@ -8,5 +8,6 @@ public sealed record SearchVersesQuery(
     string Query,
     string? TranslationSourceCode,
     int Page,
-    int PageSize)
+    int PageSize,
+    SearchVersesMode Mode = SearchVersesMode.Keyword)
     : IRequest<Result<PagedResult<VerseSearchHitDto>>>;

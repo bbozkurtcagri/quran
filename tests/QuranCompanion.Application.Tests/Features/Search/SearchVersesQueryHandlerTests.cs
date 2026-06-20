@@ -1,4 +1,6 @@
 using FluentAssertions;
+using NSubstitute;
+using QuranCompanion.Application.Abstractions.Embedding;
 using QuranCompanion.Application.Common.Text;
 using QuranCompanion.Application.Features.Search.Queries.SearchVerses;
 using QuranCompanion.Application.Tests.Common;
@@ -13,7 +15,7 @@ public class SearchVersesQueryHandlerTests
         await using var db = TestDb.Create();
         await SampleData.SeedAsync(db);
 
-        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer());
+        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer(), Substitute.For<IEmbedder>());
 
         var result = await handler.Handle(
             new SearchVersesQuery("   ", null, 1, 20),
@@ -30,7 +32,7 @@ public class SearchVersesQueryHandlerTests
         await using var db = TestDb.Create();
         await SampleData.SeedAsync(db);
 
-        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer());
+        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer(), Substitute.For<IEmbedder>());
 
         var result = await handler.Handle(
             new SearchVersesQuery("sabır", null, 1, 20),
@@ -49,7 +51,7 @@ public class SearchVersesQueryHandlerTests
         await using var db = TestDb.Create();
         await SampleData.SeedAsync(db);
 
-        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer());
+        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer(), Substitute.For<IEmbedder>());
 
         var upper = await handler.Handle(
             new SearchVersesQuery("SABIR", null, 1, 20),
@@ -64,7 +66,7 @@ public class SearchVersesQueryHandlerTests
         await using var db = TestDb.Create();
         await SampleData.SeedAsync(db);
 
-        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer());
+        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer(), Substitute.For<IEmbedder>());
 
         var hit = await handler.Handle(
             new SearchVersesQuery("sabır", "elmalili", 1, 20),
@@ -83,7 +85,7 @@ public class SearchVersesQueryHandlerTests
         await using var db = TestDb.Create();
         await SampleData.SeedAsync(db);
 
-        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer());
+        var handler = new SearchVersesQueryHandler(db, new DefaultTextNormalizer(), Substitute.For<IEmbedder>());
 
         var page1 = await handler.Handle(
             new SearchVersesQuery("sabır", null, 1, 1),

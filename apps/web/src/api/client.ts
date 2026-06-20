@@ -100,11 +100,14 @@ export function getSurahVerses(
   );
 }
 
+export type SearchMode = "keyword" | "semantic";
+
 export function searchVerses(
   query: string,
   page: number = 1,
   pageSize: number = 20,
   translationSourceCode: string = DEFAULT_TRANSLATION_CODE,
+  mode: SearchMode = "keyword",
   signal?: AbortSignal,
 ): Promise<PagedResult<VerseSearchHit>> {
   const params = new URLSearchParams({
@@ -112,6 +115,7 @@ export function searchVerses(
     translationSourceCode,
     page: String(page),
     pageSize: String(pageSize),
+    mode,
   });
   return apiGet<PagedResult<VerseSearchHit>>(
     `/api/v1/search?${params.toString()}`,

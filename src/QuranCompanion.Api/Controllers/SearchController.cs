@@ -20,9 +20,19 @@ public sealed class SearchController(ISender sender) : ControllerBase
         [FromQuery] string? translationSourceCode,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
+        [FromQuery] string? mode = null,
         CancellationToken cancellationToken = default)
     {
-        var request = new SearchVersesQuery(query ?? string.Empty, translationSourceCode, page, pageSize);
+        var resolvedMode = string.Equals(mode, "semantic", StringComparison.OrdinalIgnoreCase)
+            ? SearchVersesMode.Semantic
+            : SearchVersesMode.Keyword;
+
+        var request = new SearchVersesQuery(
+            query ?? string.Empty,
+            translationSourceCode,
+            page,
+            pageSize,
+            resolvedMode);
         var result = await sender.Send(request, cancellationToken);
         return result.ToActionResult();
     }
