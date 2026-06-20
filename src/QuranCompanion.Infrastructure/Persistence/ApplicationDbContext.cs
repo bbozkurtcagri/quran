@@ -3,6 +3,7 @@ using QuranCompanion.Application.Abstractions.Persistence;
 using QuranCompanion.Domain.Common;
 using QuranCompanion.Domain.Import;
 using QuranCompanion.Domain.Quran;
+using QuranCompanion.Domain.Search;
 
 namespace QuranCompanion.Infrastructure.Persistence;
 
@@ -20,6 +21,8 @@ public class ApplicationDbContext(
     public DbSet<VerseTranslation> VerseTranslations => Set<VerseTranslation>();
 
     public DbSet<ImportHistory> ImportHistories => Set<ImportHistory>();
+
+    public DbSet<VerseEmbedding> VerseEmbeddings => Set<VerseEmbedding>();
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -43,10 +46,22 @@ public class ApplicationDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasPostgresExtension("pg_trgm");
-        modelBuilder.HasPostgresExtension("unaccent");
+        if (Database.IsRelational())
+        {
+            modelBuilder.HasPostgresExtension("pg_trgm");
+            modelBuilder.HasPostgresExtension("unaccent");
+            modelBuilder.HasPostgresExtension("vector");
+        }
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        // pgvector's Vector type has no in-memory mapping; integration tests
+        // use the EF in-memory provider, so we drop the entity from the model
+        // when the configured provider is not relational.
+        if (!Database.IsRelational())
+        {
+            modelBuilder.Ignore<VerseEmbedding>();
+        }
 
         base.OnModelCreating(modelBuilder);
     }

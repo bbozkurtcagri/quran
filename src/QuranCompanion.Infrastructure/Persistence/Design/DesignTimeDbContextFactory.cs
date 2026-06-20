@@ -18,7 +18,10 @@ internal sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<A
 
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseNpgsql(connectionString, npgsql =>
-                npgsql.MigrationsHistoryTable("__ef_migrations_history", "public"))
+            {
+                npgsql.MigrationsHistoryTable("__ef_migrations_history", "public");
+                npgsql.UseVector();
+            })
             .UseSnakeCaseNamingConvention()
             .Options;
 

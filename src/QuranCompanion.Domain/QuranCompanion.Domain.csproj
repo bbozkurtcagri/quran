@@ -5,4 +5,9 @@
     <AssemblyName>QuranCompanion.Domain</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Pgvector ships the Vector value type only; the EF Core mapper lives in Infrastructure. -->
+    <PackageReference Include="Pgvector" />
+  </ItemGroup>
+
 </Project>

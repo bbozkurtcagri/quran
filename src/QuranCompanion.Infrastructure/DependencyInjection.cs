@@ -23,6 +23,7 @@ public static class DependencyInjection
             {
                 npgsql.MigrationsHistoryTable("__ef_migrations_history", "public");
                 npgsql.EnableRetryOnFailure(3);
+                npgsql.UseVector(); // register pgvector mapping
             });
             options.UseSnakeCaseNamingConvention();
         });
