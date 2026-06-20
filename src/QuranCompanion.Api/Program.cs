@@ -19,6 +19,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<SeedRunner>();
+builder.Services.AddScoped<EmbeddingRebuildRunner>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -121,6 +122,17 @@ if (args.Length > 0 && string.Equals(args[0], "seed", StringComparison.OrdinalIg
     seedLogger.LogInformation("Seeding from {Directory}…", seedDirectory);
     await seedRunner.RunAsync(seedDirectory, CancellationToken.None);
     seedLogger.LogInformation("Seed completed.");
+    return;
+}
+
+if (args.Length > 0 && string.Equals(args[0], "embed-rebuild", StringComparison.OrdinalIgnoreCase))
+{
+    using var scope = app.Services.CreateScope();
+    var runner = scope.ServiceProvider.GetRequiredService<EmbeddingRebuildRunner>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Embedding rebuild starting…");
+    await runner.RunAsync(CancellationToken.None);
+    logger.LogInformation("Embedding rebuild done.");
     return;
 }
 
