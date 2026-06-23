@@ -75,3 +75,20 @@ seed-data/translations/*.json
 !seed-data/**/README.md
 !seed-data/quran/surahs.json
 !seed-data/translations/sources.json
+
+# Xcode / iOS
+**/xcuserdata/
+**/*.xcuserstate
+**/*.xcuserdatad/
+**/DerivedData/
+**/build/
+**/Build/
+**/*.hmap
+**/*.ipa
+**/*.dSYM.zip
+**/*.dSYM
+**/.swiftpm/
+**/.build/
+**/Package.resolved
+apps/ios/**/Pods/
+apps/ios/**/Podfile.lock
