@@ -26,9 +26,14 @@ export function Layout() {
       </main>
 
       <footer className="mt-24 border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-8 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] font-mono text-text-muted">
-          <span>Elmalılı Hamdi Yazır · Meal</span>
-          <span>Tanzil · Uthmani Minimal</span>
+        <div className="mx-auto max-w-6xl px-6 py-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-[11px] uppercase tracking-[0.2em] font-mono text-text-muted">
+          <span>Elmalılı meali · Tanzil mushafı</span>
+          <NavLink
+            to="/about"
+            className="hover:text-text transition-colors duration-200 ease-[var(--ease-skill)]"
+          >
+            Hakkında →
+          </NavLink>
         </div>
       </footer>
     </div>
