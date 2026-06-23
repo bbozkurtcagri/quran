@@ -57,35 +57,48 @@ struct SurahDetailView: View {
     @State private var model: SurahDetailModel
     @Environment(\.dismiss) private var dismiss
 
-    init(number: Int) {
+    /// Optional verse to scroll to once the surah has loaded. Used when
+    /// arriving from a search hit.
+    private let targetVerse: Int?
+
+    init(number: Int, targetVerse: Int? = nil) {
         _model = State(initialValue: SurahDetailModel(number: number))
+        self.targetVerse = targetVerse
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                content
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 0) {
+                    content
+                }
+                .frame(maxWidth: Spacing.readingMaxWidth)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, Spacing.md)
+                .padding(.bottom, Spacing.huge)
             }
-            .frame(maxWidth: Spacing.readingMaxWidth)
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, Spacing.md)
-            .padding(.bottom, Spacing.huge)
-        }
-        .background(Color.qcBackground.ignoresSafeArea())
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Text("← SURELER")
-                        .font(.qcMono(11))
-                        .tracking(2.4)
-                        .foregroundStyle(Color.qcTextMuted)
+            .background(Color.qcBackground.ignoresSafeArea())
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("← SURELER")
+                            .font(.qcMono(11))
+                            .tracking(2.4)
+                            .foregroundStyle(Color.qcTextMuted)
+                    }
+                }
+            }
+            .task { await model.load() }
+            .onChange(of: model.verses.count) { _, count in
+                guard let target = targetVerse, count > 0 else { return }
+                withAnimation(.softSkillSlow) {
+                    proxy.scrollTo("v\(target)", anchor: .top)
                 }
             }
         }
-        .task { await model.load() }
     }
 
     @ViewBuilder

@@ -11,8 +11,18 @@ final class SurahListModel {
     private(set) var surahs: [SurahListItem] = []
     private(set) var isLoading: Bool = false
     private(set) var error: String? = nil
+    var lastRead: LastRead? = nil
 
     var filterText: String = ""
+
+    func refreshLastRead() {
+        lastRead = LastReadStore.load()
+    }
+
+    func clearLastRead() {
+        LastReadStore.clear()
+        lastRead = nil
+    }
 
     var filtered: [SurahListItem] {
         let normalized = Self.normalize(filterText)
@@ -79,6 +89,29 @@ struct SurahListView: View {
                 SectionRule()
                     .padding(.bottom, Spacing.xxl)
 
+                if let last = model.lastRead {
+                    ZStack(alignment: .topTrailing) {
+                        NavigationLink(value: last.surahNumber) {
+                            ContinueChipBody(lastRead: last)
+                        }
+                        .buttonStyle(.plain)
+
+                        Button {
+                            model.clearLastRead()
+                        } label: {
+                            Text("×")
+                                .font(.qcUI(18, weight: .light))
+                                .foregroundStyle(Color.qcTextMuted)
+                                .padding(Spacing.sm)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Devam et işaretini sil")
+                    }
+                    .padding(.horizontal, Spacing.lg)
+                    .padding(.bottom, Spacing.xl)
+                }
+
                 FilterField(text: $model.filterText)
                     .padding(.horizontal, Spacing.lg)
                     .padding(.bottom, Spacing.lg)
@@ -92,6 +125,7 @@ struct SurahListView: View {
         }
         .background(Color.qcBackground.ignoresSafeArea())
         .task { await model.load() }
+        .onAppear { model.refreshLastRead() }
     }
 
     @ViewBuilder
