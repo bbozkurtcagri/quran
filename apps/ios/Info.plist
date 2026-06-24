@@ -12,6 +12,9 @@
     <string>6.0</string>
     <key>CFBundleName</key>
     <string>$(PRODUCT_NAME)</string>
+    <!-- Home-screen ve App Store'da görünen isim; bundle name (teknik) "QuranMeali" kalır. -->
+    <key>CFBundleDisplayName</key>
+    <string>Kur'an Meali</string>
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
@@ -32,6 +35,18 @@
     </dict>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <!-- Custom fonts shipped under QuranMeali/Fonts/, copied into the bundle root at build time. -->
+    <key>UIAppFonts</key>
+    <array>
+        <string>InstrumentSerif-Regular.ttf</string>
+        <string>InstrumentSerif-Italic.ttf</string>
+        <string>Newsreader-Regular.ttf</string>
+        <string>Newsreader-Italic.ttf</string>
+        <string>Geist-Regular.ttf</string>
+        <string>Geist-Medium.ttf</string>
+        <string>GeistMono-Regular.ttf</string>
+        <string>Amiri-Regular.ttf</string>
+    </array>
     <key>UILaunchScreen</key>
     <dict/>
     <key>UIRequiredDeviceCapabilities</key>
