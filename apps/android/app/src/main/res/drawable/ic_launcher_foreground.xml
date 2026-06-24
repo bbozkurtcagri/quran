@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Adaptive icon foreground — kapalı mushaf silüeti.
+  Aynı geometri iOS app icon'unda da kullanılır (apps/ios/scripts/generate-icon.swift).
+  Viewport 1024×1024 ile iOS koordinatlarını birebir taşır; Android otomatik 108dp'ye ölçekler.
+  Foreground'ın safe alanı viewport'un orta %67'sidir — mushaf bu bölgeye sığar.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+
+    <!-- Cover — koyu yeşil cilt, 18 birim corner radius -->
+    <path
+        android:fillColor="#2D5A32"
+        android:pathData="M230,142 H794 A18,18 0 0 1 812,160 V864 A18,18 0 0 1 794,882 H230 A18,18 0 0 1 212,864 V160 A18,18 0 0 1 230,142 Z" />
+
+    <!-- Spine — kapaktan biraz koyu, deri ciltin sırtı -->
+    <path
+        android:fillColor="#1F4022"
+        android:pathData="M230,142 H262 V882 H230 A18,18 0 0 1 212,864 V160 A18,18 0 0 1 230,142 Z" />
+
+    <!-- Spine üstündeki altın headband çizgileri (üst + alt) -->
+    <path android:fillColor="#DFC089" android:pathData="M212,178 H262 V182 H212 Z" />
+    <path android:fillColor="#DFC089" android:pathData="M212,842 H262 V846 H212 Z" />
+
+    <!-- Gold inset frame — ince stroke dikdörtgen -->
+    <path
+        android:strokeColor="#DFC089"
+        android:strokeWidth="3"
+        android:fillColor="#00000000"
+        android:pathData="M292,198 H756 V826 H292 Z" />
+
+    <!-- Şemse rozeti — dört yapraklı, overlap circles -->
+    <path
+        android:fillColor="#DFC089"
+        android:pathData="M524,442 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+    <path
+        android:fillColor="#DFC089"
+        android:pathData="M524,582 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+    <path
+        android:fillColor="#DFC089"
+        android:pathData="M474,512 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+    <path
+        android:fillColor="#DFC089"
+        android:pathData="M574,512 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+
+    <!-- Negatif göbek — kapak rengiyle delik açar gibi -->
+    <path
+        android:fillColor="#2D5A32"
+        android:pathData="M524,512 m-32,0 a32,32 0 1,0 64,0 a32,32 0 1,0 -64,0" />
+
+    <!-- Merkez disk — rozetin ağırlık noktası -->
+    <path
+        android:fillColor="#DFC089"
+        android:pathData="M524,512 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+</vector>

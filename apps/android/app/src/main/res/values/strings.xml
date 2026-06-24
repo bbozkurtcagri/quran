@@ -1,0 +1,4 @@
+<resources>
+    <!-- Launcher etiketi ve manifest label — iOS'taki CFBundleDisplayName eşdeğeri. -->
+    <string name="app_name">Kur\'an Meali</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.QuranMeali" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!--
+        Static SplashScreen — Android 12+ otomatik, eski sürümlerde core-splashscreen
+        kütüphanesi backport eder. Compose ekranı çizilene kadar warm dark zemin gösterilir;
+        ardından animated splash overlay devralır.
+    -->
+    <style name="Theme.QuranMeali.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/launch_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.QuranMeali</item>
+    </style>
+</resources>
