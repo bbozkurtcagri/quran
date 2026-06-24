@@ -55,11 +55,13 @@ private struct BrowseTab: View {
     var body: some View {
         NavigationStack {
             SurahListView()
-                .navigationDestination(for: Int.self) { surahNumber in
-                    SurahDetailView(number: surahNumber)
-                }
                 .navigationDestination(for: SurahListItem.self) { surah in
+                    // Listeden tıklama — her zaman başa scroll.
                     SurahDetailView(number: surah.number)
+                }
+                .navigationDestination(for: ResumeDestination.self) { dest in
+                    // Devam et — last-read ayetinden devam.
+                    SurahDetailView(number: dest.surahNumber, targetVerse: dest.verseNumber)
                 }
         }
     }

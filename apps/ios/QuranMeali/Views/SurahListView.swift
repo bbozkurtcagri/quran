@@ -91,7 +91,12 @@ struct SurahListView: View {
 
                 if let last = model.lastRead {
                     ZStack(alignment: .topTrailing) {
-                        NavigationLink(value: last.surahNumber) {
+                        // ResumeDestination ile surah + verse beraber taşınıyor;
+                        // detail view doğrudan kaldığı ayete scroll ediyor.
+                        NavigationLink(value: ResumeDestination(
+                            surahNumber: last.surahNumber,
+                            verseNumber: last.verseNumber
+                        )) {
                             ContinueChipBody(lastRead: last)
                         }
                         .buttonStyle(.plain)

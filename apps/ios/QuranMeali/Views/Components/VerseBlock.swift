@@ -51,7 +51,6 @@ struct VerseBlock: View {
         }
         .padding(.vertical, Spacing.xl)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .id("v\(verse.verseNumber)")
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(Color.qcBorder)

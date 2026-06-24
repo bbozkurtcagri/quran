@@ -10,6 +10,13 @@
 
 import SwiftUI
 
+/// NavigationStack value tipi — chip'e tıklayınca surah numarası ve son ayet
+/// birlikte taşınır ki detail view doğru ayete scroll edebilsin.
+struct ResumeDestination: Hashable {
+    let surahNumber: Int
+    let verseNumber: Int
+}
+
 struct ContinueChipBody: View {
     let lastRead: LastRead
 
