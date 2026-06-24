@@ -8,27 +8,44 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("qc-appearance") private var appearanceRaw: String = AppearancePreference.system.rawValue
 
+    // Animated splash uygulama açılırken bir kez gösterilir; statik launch screen
+    // ile aynı renkte olduğundan göze çarpan bir sıçrama yok.
+    @State private var showSplash: Bool = true
+
     var body: some View {
-        TabView {
-            BrowseTab()
-                .tabItem {
-                    Label("Sureler", systemImage: "book.closed")
-                }
+        ZStack {
+            mainTabs
 
-            SearchTab()
-                .tabItem {
-                    Label("Arama", systemImage: "magnifyingglass")
-                }
-
-            AboutTab()
-                .tabItem {
-                    Label("Hakkında", systemImage: "info.circle")
-                }
+            if showSplash {
+                SplashView()
+                    .transition(.opacity)
+                    .zIndex(1)
+            }
         }
-        .tint(Color.qcAccent)
         .preferredColorScheme(
             AppearancePreference(rawValue: appearanceRaw)?.colorScheme
         )
+        .task {
+            // Splash en az 1.7s kalır; çoğu cihazda API çağrısı bu sürede tamamlanır.
+            try? await Task.sleep(for: .milliseconds(1700))
+            withAnimation(.softSkillSlow) {
+                showSplash = false
+            }
+        }
+    }
+
+    private var mainTabs: some View {
+        TabView {
+            BrowseTab()
+                .tabItem { Label("Sureler", systemImage: "book.closed") }
+
+            SearchTab()
+                .tabItem { Label("Arama", systemImage: "magnifyingglass") }
+
+            AboutTab()
+                .tabItem { Label("Hakkında", systemImage: "info.circle") }
+        }
+        .tint(Color.qcAccent)
     }
 }
 

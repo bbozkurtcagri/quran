@@ -47,8 +47,12 @@
         <string>GeistMono-Regular.ttf</string>
         <string>Amiri-Regular.ttf</string>
     </array>
+    <!-- Statik launch ekranı yalnızca arkaplan renkli; animasyonlu splash SwiftUI'da. -->
     <key>UILaunchScreen</key>
-    <dict/>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchBackground</string>
+    </dict>
     <key>UIRequiredDeviceCapabilities</key>
     <array>
         <string>arm64</string>

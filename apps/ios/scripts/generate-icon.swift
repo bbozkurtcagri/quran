@@ -119,6 +119,7 @@ ctx.stroke(frameRect)
 
 // 5. Merkez ornament — şemse (dört yapraklı rozet). Dört dairenin örtüşmesiyle çizilir,
 //    iç bölgede ince altın halka kalır.
+//    Motifin kültürel arka planı için: QuranMeali/Views/SplashView.swift → `Rosette`.
 let cx = frameRect.midX
 let cy = frameRect.midY
 let petalR: CGFloat = 70
