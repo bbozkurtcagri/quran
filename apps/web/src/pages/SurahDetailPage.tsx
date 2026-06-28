@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getSurahDetail, getSurahVerses } from "../api/client";
 import type { SurahDetail, VerseSummary } from "../api/types";
@@ -17,10 +17,22 @@ export function SurahDetailPage() {
   const { number } = useParams<{ number: string }>();
   const { hash } = useLocation();
   const surahNumber = number ? parseInt(number, 10) : NaN;
+  // URL'de #vN varsa — search/devam-et akışlarında — bu ayete scroll edilecek hedef.
+  const targetVerse = (() => {
+    const m = hash.match(/^#v(\d+)$/);
+    return m ? parseInt(m[1], 10) : null;
+  })();
 
   const [surah, setSurah] = useState<SurahDetail | null>(null);
   const [verses, setVerses] = useState<VerseSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // En üstte (sticky navbar'ın altında) görünen ayet. IntersectionObserver
+  // buraya yazar, save tetiklenir.
+  const [topmostVerse, setTopmostVerse] = useState<number | null>(null);
+  // Aynı verseNumber'a iki kere yazıp localStorage'a gereksiz IO yapmamak için
+  // son save'i hatırlarız.
+  const lastSavedVerse = useRef<number | null>(null);
 
   const { save: saveLastRead } = useLastRead();
 
@@ -52,18 +64,75 @@ export function SurahDetailPage() {
     return () => ctrl.abort();
   }, [surahNumber]);
 
-  // Remember where the reader is. If the URL carries #vN we honour it; otherwise
-  // we mark the top of the surah so 'Devam et' lands them somewhere sensible.
+  // Scroll-driven last-read. Verse component'ları DOM'da `id="vN"` ile var;
+  // IntersectionObserver üst banta giren ayetleri yakalar, en küçük numara
+  // o anki "okunan" ayettir.
+  useEffect(() => {
+    if (!verses || verses.length === 0) return;
+
+    // rootMargin üst banttan -120px (sticky offset), alttan -55% (sadece
+    // üst yarıyı tracker olarak izle). Bant içine giren ilk verse topmost'tur.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleNumbers = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => parseInt(e.target.id.slice(1), 10))
+          .filter((n) => !Number.isNaN(n));
+        if (visibleNumbers.length > 0) {
+          setTopmostVerse(Math.min(...visibleNumbers));
+        }
+      },
+      { rootMargin: "-120px 0px -55% 0px", threshold: 0 },
+    );
+
+    verses.forEach((v) => {
+      const el = document.getElementById(`v${v.verseNumber}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [verses]);
+
+  // Verses geldikten sonra hedef ayete (varsa) tek seferlik programatik scroll.
+  // SPA olduğumuz için browser native hash-scroll DOM hazır olmadan tetikleniyor
+  // ve atlıyor — bu efekt onu telafi eder.
+  useEffect(() => {
+    if (!verses || verses.length === 0) return;
+    if (targetVerse == null) return;
+    // requestAnimationFrame ile bir tick beklet ki layout tamamlansın.
+    const id = requestAnimationFrame(() => {
+      const el = document.getElementById(`v${targetVerse}`);
+      el?.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [verses, targetVerse]);
+
+  // Sure yüklendiğinde ilk save'i de yap — kullanıcı hiç scroll etmeden çıksa
+  // bile son okuduğu sure listede chip olarak görünür. Hash hedefi varsa onu
+  // baz al; yoksa scroll observer'ın ilk değerini ya da 1'i kullan.
   useEffect(() => {
     if (!surah) return;
-    const m = hash.match(/^#v(\d+)$/);
-    const verseNumber = m ? parseInt(m[1], 10) : 1;
+    if (lastSavedVerse.current != null) return;
+    const initial = targetVerse ?? topmostVerse ?? 1;
     saveLastRead({
       surahNumber: surah.number,
       surahNameTurkish: surah.nameTurkish,
-      verseNumber,
+      verseNumber: initial,
     });
-  }, [surah, hash, saveLastRead]);
+    lastSavedVerse.current = initial;
+  }, [surah, targetVerse, topmostVerse, saveLastRead]);
+
+  // Topmost verse değiştikçe last-read'i güncelle.
+  useEffect(() => {
+    if (!surah || topmostVerse == null) return;
+    if (topmostVerse === lastSavedVerse.current) return;
+    saveLastRead({
+      surahNumber: surah.number,
+      surahNameTurkish: surah.nameTurkish,
+      verseNumber: topmostVerse,
+    });
+    lastSavedVerse.current = topmostVerse;
+  }, [surah, topmostVerse, saveLastRead]);
 
   if (error) {
     return (
