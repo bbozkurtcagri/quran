@@ -1,0 +1,27 @@
+# Build image'ında bunlar olmasın — hem gereksiz layer size, hem build cache invalidation riski.
+
+# Node
+node_modules
+npm-debug.log*
+.npm
+
+# Build outputs — image'da fresh build yapıyoruz
+dist
+build
+
+# Git / editor
+.git
+.gitignore
+.vscode
+.idea
+*.swp
+.DS_Store
+
+# Docs — image'a copy'lememize gerek yok
+README.md
+*.md
+
+# Test / config that don't affect production build
+coverage
+.env.local
+.env.*.local
