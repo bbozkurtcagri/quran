@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using QuranCompanion.Application.Abstractions.Embedding;
 using QuranCompanion.Application.Abstractions.Persistence;
 using QuranCompanion.Infrastructure.Embedding;
@@ -19,13 +20,25 @@ public static class DependencyInjection
             ?? throw new InvalidOperationException(
                 "Connection string 'Postgres' is not configured.");
 
+        // pgvector type mapping'i iki katmanda register etmek gerek:
+        // 1) NpgsqlDataSource seviyesinde (UseVector çağrısı) — raw parameter
+        //    passing için (SearchVerses semantic query'de "WHERE embedding <=> @vec").
+        //    Bu olmadan NpgsqlParameter type'ı çözemez, InvalidCastException atar.
+        // 2) EF Core seviyesinde (options.UseVector) — LINQ expression translation
+        //    ve column mapping için.
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+        dataSourceBuilder.UseVector();
+        var dataSource = dataSourceBuilder.Build();
+
+        services.AddSingleton(dataSource);
+
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            options.UseNpgsql(connectionString, npgsql =>
+            options.UseNpgsql(dataSource, npgsql =>
             {
                 npgsql.MigrationsHistoryTable("__ef_migrations_history", "public");
                 npgsql.EnableRetryOnFailure(3);
-                npgsql.UseVector(); // register pgvector mapping
+                npgsql.UseVector();
             });
             options.UseSnakeCaseNamingConvention();
         });
