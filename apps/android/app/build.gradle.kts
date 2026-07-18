@@ -26,6 +26,10 @@ android {
             optimization {
                 enable = false
             }
+            // Local test için release build'i debug keystore ile sign et.
+            // Emulator/cihazlar unsigned APK'yı yüklemez; Play Store için ayrı
+            // upload keystore setup edilecek (bu sadece local iteration için).
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -34,6 +38,9 @@ android {
     }
     buildFeatures {
         compose = true
+        // AGP 8+ default'ta BuildConfig'i üretmez (build hızı + APK boyutu için).
+        // Bize DEBUG flag'i lazım (ApiClient.kt release'te prod URL'e geçiyor).
+        buildConfig = true
     }
 }
 
