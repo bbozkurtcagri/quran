@@ -67,14 +67,21 @@ Thumbs.db
 # Docker volumes
 docker/data/
 
-# Seed data (large or licensed). Factual metadata is committed; copyrighted /
-# license-restricted content (verse text, meals) stays out of the repo.
+# Seed data. Default: exclude — used to keep large / potentially restricted
+# blobs out of the repo. Explicit allow-list for what we DO commit:
+#   - surahs.json (114 sure metadata, public factual data)
+#   - sources.json (translation source registry)
+#   - verses.json (Tanzil Uthmani-Minimal — CC-BY, attribution in docs/data-sources.md)
+#   - elmalili.json (Elmalılı Hamdi Yazır — public domain in TR since 2012, 70y post-mortem)
+# These live in the repo so CI can bake them into the seed-data image.
 seed-data/quran/*.json
 seed-data/translations/*.json
 !seed-data/**/.gitkeep
 !seed-data/**/README.md
 !seed-data/quran/surahs.json
+!seed-data/quran/verses.json
 !seed-data/translations/sources.json
+!seed-data/translations/elmalili.json
 
 # Xcode / iOS
 **/xcuserdata/
