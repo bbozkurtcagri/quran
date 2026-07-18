@@ -141,11 +141,11 @@ jobs:
             exit 0
           fi
 
-          # Conventional commit format
-          git commit -m "ci: bump images to $NEW_TAG
-
-Built from source commit bbozkurtcagri/quran@${{ github.sha }}
-Triggered by: ${{ github.event_name }}"
+          # Conventional commit format. Multiple -m flags = multiple paragraphs (avoids YAML multi-line issues).
+          git commit \
+            -m "ci: bump images to $NEW_TAG" \
+            -m "Built from source commit bbozkurtcagri/quran@${{ github.sha }}" \
+            -m "Triggered by: ${{ github.event_name }}"
 
           # Push — MANIFEST_BUMP_TOKEN sayesinde repo'ya write yetkimiz var
           git push
