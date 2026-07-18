@@ -1,0 +1,151 @@
+name: Build & Deploy
+
+# Trigger: main'e push (yani PR merge sonrası). Manuel tetiklemeye de izin ver — workflow_dispatch.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  # Container registry
+  REGISTRY: ghcr.io
+  # GHCR image sahibinin kullanıcı adı — image path'i: ghcr.io/bbozkurtcagri/<image>
+  IMAGE_OWNER: bbozkurtcagri
+
+jobs:
+  # ============================================================================
+  # JOB 1: 3 servisi paralel build + ghcr.io push
+  # ============================================================================
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    # matrix strategy — 3 iş aynı anda paralel koşar. Biri fail olursa diğerleri devam eder (default).
+    strategy:
+      matrix:
+        include:
+          - name: api
+            image: kuranmeali-api
+            context: .
+            dockerfile: ./Dockerfile
+            # .NET API için build-arg gerekmiyor
+            build-args: ""
+          - name: web
+            image: kuranmeali-web
+            context: ./apps/web
+            dockerfile: ./apps/web/Dockerfile
+            # Vite build-time env — bundle'a bu URL gömülür
+            build-args: |
+              VITE_API_BASE_URL=https://api.kuranmeali.app
+          - name: embedder
+            image: kuranmeali-embedder
+            context: ./services/embedder
+            dockerfile: ./services/embedder/Dockerfile
+            build-args: ""
+
+    # ghcr.io'ya push için GITHUB_TOKEN'a packages:write vermek gerek
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # Docker Buildx = advanced Docker build (multi-platform, cache backends, layer optimization).
+      # Standard "docker build"e göre çok daha akıllı.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ghcr.io'ya login. GITHUB_TOKEN otomatik verilir, packages:write scope'una sahip.
+      # PAT gerekmez — kendi hesabımızın registry'sine push yapıyoruz.
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build + push. Tag stratejisi: sha-<short> (immutable, commit'e bağlı) + latest (rolling).
+      # Cache: GHA cache backend, her matrix job'ı kendi scope'unda cache tutar (paralel çakışma yok).
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/${{ matrix.image }}:sha-${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/${{ matrix.image }}:latest
+          build-args: ${{ matrix.build-args }}
+          # Cache: previous layer'ları GitHub Actions cache'inden çek, yeni layer'ları oraya yaz.
+          # Build süresini 5-10x hızlandırır (deps yeniden pull olmaz).
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+
+  # ============================================================================
+  # JOB 2: k8s-manifests repo'sunda image.tag'i bump et
+  # 3 build de başarılı olunca (needs: build-and-push) tek sefer çalışır.
+  # ============================================================================
+  bump-manifests:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      # k8s-manifests repo'sunu checkout et. Standart GITHUB_TOKEN başka repo'ya yazamaz —
+      # bunun için Phase 9a'da ürettiğimiz fine-grained PAT'ı kullanıyoruz.
+      - name: Checkout k8s-manifests
+        uses: actions/checkout@v4
+        with:
+          repository: bbozkurtcagri/k8s-manifests
+          token: ${{ secrets.MANIFEST_BUMP_TOKEN }}
+          ref: main
+
+      # 3 chart'ın values.yaml'ında image.tag'i yeni SHA'ya güncelle.
+      # yq: YAML parser (ubuntu-latest'te pre-installed). sed'den güvenli — YAML syntax'ı bozmaz.
+      - name: Bump image tags
+        env:
+          NEW_TAG: sha-${{ github.sha }}
+        run: |
+          # Chart → image adı map'i
+          declare -A charts=(
+            [quran-meali-api]=kuranmeali-api
+            [quran-meali-web]=kuranmeali-web
+            [embedder]=kuranmeali-embedder
+          )
+
+          for chart in "${!charts[@]}"; do
+            file="apps/$chart/values.yaml"
+            # yq: image.tag alanını güncelle. -i: in-place edit.
+            yq -i ".image.tag = \"$NEW_TAG\"" "$file"
+            echo "✓ $file → tag: $NEW_TAG"
+          done
+
+          echo ""
+          echo "=== Değişiklikler ==="
+          git diff --stat
+
+      # Commit + push. Boş commit'i önlemek için diff varsa commit'le.
+      - name: Commit and push
+        env:
+          NEW_TAG: sha-${{ github.sha }}
+        run: |
+          # Identity — bot commit'i olduğu belli olsun
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add apps/*/values.yaml
+
+          # Diff yoksa çık (sha değişmemiş = manuel re-run senaryosu)
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok — image.tag zaten güncel. Çıkılıyor."
+            exit 0
+          fi
+
+          # Conventional commit format
+          git commit -m "ci: bump images to $NEW_TAG
+
+Built from source commit bbozkurtcagri/quran@${{ github.sha }}
+Triggered by: ${{ github.event_name }}"
+
+          # Push — MANIFEST_BUMP_TOKEN sayesinde repo'ya write yetkimiz var
+          git push
