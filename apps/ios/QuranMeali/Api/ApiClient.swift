@@ -45,9 +45,10 @@ final class ApiClient: @unchecked Sendable {
 
     nonisolated(unsafe) static let shared = ApiClient()
 
-    /// Simulator runs on the host Mac, so localhost reaches the .NET API
-    /// directly. Override before launch to point at a LAN address (`http://192.168…`)
-    /// when running on a real device.
+    /// DEBUG builds default to the local dev API (simulator ↔ host Mac via
+    /// `localhost`; on a real device you'd override to a LAN IP like
+    /// `http://192.168.1.42:8085`). RELEASE builds hit prod over HTTPS.
+    /// Init `baseURL:` still lets you override for tests / one-off configs.
     private let baseURL: URL
 
     private let session: URLSession
@@ -55,7 +56,13 @@ final class ApiClient: @unchecked Sendable {
 
     nonisolated private static let defaultTranslationSource = "elmalili"
 
-    init(baseURL: URL = URL(string: "http://localhost:8085")!,
+    #if DEBUG
+    nonisolated private static let defaultBaseURL = URL(string: "http://localhost:8085")!
+    #else
+    nonisolated private static let defaultBaseURL = URL(string: "https://api.kuranmeali.app")!
+    #endif
+
+    init(baseURL: URL = ApiClient.defaultBaseURL,
          session: URLSession = .shared)
     {
         self.baseURL = baseURL

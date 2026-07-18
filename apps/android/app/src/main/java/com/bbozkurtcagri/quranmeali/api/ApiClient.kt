@@ -1,5 +1,6 @@
 package com.bbozkurtcagri.quranmeali.api
 
+import com.bbozkurtcagri.quranmeali.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -11,9 +12,14 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 // Tek tip singleton — Compose tarafı doğrudan ApiClient.service.getSurahs() çağırır.
-// Emulator'dan host makineye 10.0.2.2 ile ulaşılır; iOS'taki localhost:8085 eşdeğeri.
+// Debug: emulator'dan host makineye 10.0.2.2 ile ulaşılır (iOS'taki localhost:8085 eşdeğeri).
+// Release: prod API üzerinden HTTPS. BuildConfig.DEBUG derleme zamanında Gradle build type'a göre set edilir.
 object ApiClient {
-    private const val BASE_URL = "http://10.0.2.2:8085/"
+    private val BASE_URL: String = if (BuildConfig.DEBUG) {
+        "http://10.0.2.2:8085/"
+    } else {
+        "https://api.kuranmeali.app/"
+    }
 
     private val moshi: Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
