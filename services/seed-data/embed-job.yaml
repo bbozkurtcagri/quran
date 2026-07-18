@@ -1,0 +1,64 @@
+# One-shot embedding rebuild Job.
+#
+# EmbeddingRebuildRunner ne yapar:
+#   1. MigrateAsync() (idempotent, tablolar zaten var, skip)
+#   2. quran.verses ve quran.verse_translations'ı okur
+#   3. Her ayet+translation için:
+#      a. embedder pod'una POST http://embedder:8000/embed (metin gönderir)
+#      b. 384-dim vektörü alır
+#      c. search.verse_embeddings tablosuna insert eder
+#   4. Toplam ~6236 embedder çağrısı, ~5-10 dk sürer.
+#
+# Kullanım:
+#   scp ~/Desktop/k/services/seed-data/embed-job.yaml kuranmeali:~/
+#   ssh kuranmeali
+#   kubectl apply -f ~/embed-job.yaml
+#   kubectl logs -n quran-meali -f job/quran-meali-embed-rebuild
+#
+# Bu Job seed'ten sonra çalışmalı — verse'ler DB'de olmadan embedding üretilemez.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: quran-meali-embed-rebuild
+  namespace: quran-meali
+  labels:
+    app.kubernetes.io/name: quran-meali-embed-rebuild
+    app.kubernetes.io/part-of: quran-meali
+spec:
+  # 6236 embedder çağrısı network flaky olabilir — daha fazla retry hakkı.
+  backoffLimit: 3
+  # Tamamlanınca 24 saat sonra otomatik cleanup.
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: quran-meali-embed-rebuild
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: embed-rebuild
+          # API image ile aynı — Program.cs "embed-rebuild" arg'ını handle ediyor.
+          image: ghcr.io/bbozkurtcagri/kuranmeali-api:latest
+          imagePullPolicy: Always
+          args:
+            - embed-rebuild
+          # API pod'uyla aynı Secret — hem ConnectionStrings hem Embedder__BaseUrl burada.
+          envFrom:
+            - secretRef:
+                name: quran-meali-api
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            # embedder service DNS — API'nin values.yaml'ında env olarak set edildi ama
+            # o Deployment'a bağlı, Job için burada tekrar veriyoruz.
+            - name: Embedder__BaseUrl
+              value: http://embedder:8000
+          resources:
+            # Embedder'la konuşurken çok memory tüketmez, network I/O bound.
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
