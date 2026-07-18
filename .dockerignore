@@ -36,6 +36,7 @@ docker/data/
 .DS_Store
 Thumbs.db
 
-# Large or licensed seed payloads — never bake into the image.
-seed-data/quran/verses.json
-seed-data/translations/elmalili.json
+# Seed data now lives in its own image (services/seed-data/Dockerfile) —
+# init-container pattern: API pod mounts the data volume, so runtime API
+# image stays lean. Data files must be in the build context for the
+# seed-data image build to succeed.

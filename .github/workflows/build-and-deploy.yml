@@ -43,6 +43,13 @@ jobs:
             context: ./services/embedder
             dockerfile: ./services/embedder/Dockerfile
             build-args: ""
+          - name: seed-data
+            image: kuranmeali-seed-data
+            # Context = repo root çünkü seed-data/ klasörü orada yaşıyor.
+            # Dockerfile bunu services/seed-data/ path'inden okuyor.
+            context: .
+            dockerfile: ./services/seed-data/Dockerfile
+            build-args: ""
 
     # ghcr.io'ya push için GITHUB_TOKEN'a packages:write vermek gerek
     permissions:
