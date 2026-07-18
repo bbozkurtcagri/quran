@@ -1,0 +1,99 @@
+# One-shot K8s Job — migration + seed'i cluster'da çalıştırır.
+# GitOps'a girmeyen tek manifest bu; Job objesi one-shot (re-apply eskiyi silmez, hata verir).
+#
+# Kullanım:
+#   kubectl apply -f services/seed-data/job.yaml
+#   kubectl logs -n quran-meali -f job/quran-meali-seed
+#   kubectl delete job -n quran-meali quran-meali-seed  # tamamlanınca temizle
+#
+# Pattern:
+#   Init container (kuranmeali-seed-data:latest) → emptyDir'e data kopyala
+#   Main container (kuranmeali-api:latest) → aynı emptyDir'i /shared'e mount et,
+#                                             "seed /shared" komutu çalıştır.
+#   SeedRunner içinde MigrateAsync() var → tablolar da oluşur.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: quran-meali-seed
+  namespace: quran-meali
+  labels:
+    app.kubernetes.io/name: quran-meali-seed
+    app.kubernetes.io/part-of: quran-meali
+spec:
+  # Başarısız pod'u 3 kez retry et (network/db geçici hatalar için)
+  backoffLimit: 3
+  # Tamamlandıktan 24 saat sonra Job + Pod otomatik silinsin — manuel delete gerekmesin.
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: quran-meali-seed
+    spec:
+      # OnFailure = pod içindeki container fail ederse pod restart edilir.
+      # Never = pod ölür, Job yeni pod schedule eder (backoffLimit'a bakar).
+      # Never seçtim: her attempt fresh pod, temiz log.
+      restartPolicy: Never
+
+      # -----------------------------------------------------------------------
+      # Init container — data'yı image'dan alıp shared emptyDir'e taşır.
+      # -----------------------------------------------------------------------
+      initContainers:
+        - name: fetch-seed-data
+          image: ghcr.io/bbozkurtcagri/kuranmeali-seed-data:latest
+          imagePullPolicy: Always
+          # cp -r /data/. /shared/: seed-data image'ının içindeki /data'nın
+          # TÜM içeriğini (gizli dosyalar dahil, /data. sözdizimi) /shared'e kopyala.
+          # /data'nın kendisini değil, sadece içeriğini alıyoruz.
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Kopyalanıyor: /data → /shared"
+              cp -r /data/. /shared/
+              echo "Kopya tamam. İçerik:"
+              ls -lh /shared
+          volumeMounts:
+            - name: seed-shared
+              mountPath: /shared
+
+      # -----------------------------------------------------------------------
+      # Main container — API image'ı, "seed" komutu ile çalıştırır.
+      # -----------------------------------------------------------------------
+      containers:
+        - name: seed-runner
+          image: ghcr.io/bbozkurtcagri/kuranmeali-api:latest
+          imagePullPolicy: Always
+          # Dockerfile ENTRYPOINT = ["dotnet", "QuranCompanion.Api.dll"]
+          # Buna args ile "seed <path>" ekliyoruz.
+          # SeedRunner: MigrateAsync() → 3 seed step (surahs, verses, translations).
+          args:
+            - seed
+            - /shared
+          # Env'ler API pod'uyla aynı — Vault'tan gelen aynı Secret'ı kullanıyoruz.
+          # ConnectionStrings__Postgres burada.
+          envFrom:
+            - secretRef:
+                name: quran-meali-api
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+          volumeMounts:
+            - name: seed-shared
+              mountPath: /shared
+          resources:
+            # Seed I/O heavy, DB'ye 6236 satır insert etti — memory önemli.
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+
+      # Init ve main container arasında paylaşılan emptyDir — pod ömrü kadar var,
+      # Job bitince pod ile birlikte silinir.
+      volumes:
+        - name: seed-shared
+          emptyDir:
+            # 100 MiB kotası (3.3 MB seed data için fazlasıyla yeter).
+            sizeLimit: 100Mi
