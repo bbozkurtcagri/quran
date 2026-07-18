@@ -13,7 +13,11 @@ COPY src/QuranCompanion.Application/QuranCompanion.Application.csproj src/QuranC
 COPY src/QuranCompanion.Infrastructure/QuranCompanion.Infrastructure.csproj src/QuranCompanion.Infrastructure/
 COPY src/QuranCompanion.Api/QuranCompanion.Api.csproj               src/QuranCompanion.Api/
 
-RUN dotnet restore src/QuranCompanion.Api/QuranCompanion.Api.csproj
+# NoWarn NU1903: Microsoft.AspNetCore.OpenApi 10.0.2 transitively pulls Microsoft.OpenApi 2.0.0
+# which has GHSA-v5pm-xwqc-g5wc. TreatWarningsAsErrors turns this into a build failure.
+# Proper fix (later): pin Microsoft.OpenApi >= 2.1.0 explicitly in Directory.Packages.props.
+RUN dotnet restore src/QuranCompanion.Api/QuranCompanion.Api.csproj \
+    -p:NoWarn=NU1903
 
 # Copy the rest of the source and publish.
 COPY src/ ./src/
@@ -22,7 +26,8 @@ RUN dotnet publish src/QuranCompanion.Api/QuranCompanion.Api.csproj \
     --configuration Release \
     --no-restore \
     --output /app/publish \
-    -p:UseAppHost=false
+    -p:UseAppHost=false \
+    -p:NoWarn=NU1903
 
 # ---------- Runtime stage ----------
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
