@@ -19,8 +19,10 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    # matrix strategy — 3 iş aynı anda paralel koşar. Biri fail olursa diğerleri devam eder (default).
+    # matrix strategy — 3 iş aynı anda paralel koşar.
+    # fail-fast: false → biri fail olsa da diğerleri devam etsin, hangi build'lerin çalıştığını görelim.
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: api
